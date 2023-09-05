@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ccms-app-builder": {
+      "hosting": {
+        "web-cms": [
+          "ccms-app-builder"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ccms-app-builder"
+  }
+}
