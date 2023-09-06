@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  loginForm = this.formBuilder.group({
+  public loginForm = this.formBuilder.group({
     email : [''],
     password : ['']
   });
@@ -21,7 +21,6 @@ export class LoginComponent {
 
   onSubmit() : void {
     console.log(this.loginForm.value);
-    
   }
 
   goToRegister() : void {
