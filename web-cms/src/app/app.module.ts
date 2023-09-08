@@ -47,4 +47,5 @@ import { StepperComponent } from './register/stepper/stepper.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+}

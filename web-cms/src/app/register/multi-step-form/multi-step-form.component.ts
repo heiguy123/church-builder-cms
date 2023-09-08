@@ -13,6 +13,8 @@ import {
 } from '@angular/forms';
 import { StepperComponent } from '../stepper/stepper.component';
 import { Router } from '@angular/router';
+import { addDoc, collection, getFirestore, doc, updateDoc } from '@angular/fire/firestore';
+import { getDownloadURL, getMetadata, getStorage, ref, uploadBytes, uploadBytesResumable } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-multi-step-form',
@@ -29,6 +31,13 @@ export class MultiStepFormComponent implements OnInit {
   form!: FormGroup;
   states : any = ['Johor','Kedah','Kelantan','Malacca','Negeri Sembilan','Pahang','Penang',
           'Perak','Perlis','Sabah','Sarawak','Selangor','Terengganu','Kuala Lumpur','Labuan','Putrajaya'];
+  show: boolean = false;
+
+  constructor (
+    private router: Router,
+  ) { 
+    this.show = false;
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -50,21 +59,91 @@ export class MultiStepFormComponent implements OnInit {
       }),
     });
   }
-  
-  
 
-  // variable - default false
-  show: boolean = false;
+  async onSubmit() {
+    this.lastPage = true;
 
-  constructor (
-    private router: Router,
-  ) { 
-    this.show = false;
+    // 1. save user details to cloud firestore at first
+    const firestore = getFirestore();
+
+    const newDoc = await addDoc(collection(firestore, "users"), {
+      orgName: this.form.value.organization.name,
+      orgDenomination: this.form.value.organization.denomination,
+      orgAddress: this.form.value.organization.address,
+      orgCity: this.form.value.organization.city,
+      orgState: this.form.value.organization.state,
+      orgZip: this.form.value.organization.zip,
+      orgMemberSize: this.form.value.organization.memberSize,
+      firstName: this.form.value.applicant.firstName,
+      lastName: this.form.value.applicant.lastName,
+      email: this.form.value.applicant.email,
+      password: this.form.value.applicant.password,
+      docName: '',
+      docCreatedDate: '',
+      docUrl: '',
+    });
+    console.log("User data stored in firestore. Id: " + newDoc.id);
+
+    // 2. upload document to storage
+    this.uploadFile().then(async (docMetaData: any) => {
+      console.log('Image upload finished! update database');
+      
+      // 3. update exisitng database record
+      const docRef = doc(firestore, "users", newDoc.id);
+      await updateDoc(docRef, {
+        docName: docMetaData.fullPath,
+        docCreatedDate: docMetaData.timeCreated,
+        docUrl: docMetaData.url,
+      });
+      console.log('Database updated!');
+    });
+    
+    this.form.reset();
+    this.router.navigate(['/login']);
   }
 
-  onSubmit() {
-    this.lastPage = true;
-    this.form.reset();
+  onFileChange(event: any) {
+    this.form.value.applicant.document = event.target.files[0];
+  }
+
+  uploadFile() {
+    return new Promise(async (resolve, reject) => {
+      const storage = getStorage();
+      const storageRef = ref(storage);
+      var docMetaData = {
+        fullPath: '',
+        timeCreated: '',
+        url: '',
+      };
+
+      const fileRef = ref(storageRef, this.form.value.applicant.document.name);
+      const uploadTask = uploadBytesResumable(fileRef, this.form.value.applicant.document);
+
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // progress function
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+          // error function
+          console.log(error);
+          reject(error);
+        },
+        async () => {
+          // complete function
+          await getMetadata(uploadTask.snapshot.ref).then((metadata) => {
+            docMetaData.fullPath = metadata.fullPath;
+            docMetaData.timeCreated = metadata.timeCreated;
+          });
+          await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            docMetaData.url = url;
+          });
+          console.log(docMetaData);
+          resolve(docMetaData);
+        }
+      );
+    });
   }
 
   goToLogin() : void {
@@ -75,7 +154,6 @@ export class MultiStepFormComponent implements OnInit {
     this.router.navigate(['/forgot']);
   }
 
-  // click event function toggle
   showPassword() {
     this.show = !this.show;
   }

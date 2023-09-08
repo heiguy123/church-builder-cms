@@ -4,7 +4,7 @@
   </div>
 
   <div class="w-full register-page-main-form bg-white px-10 py-8 rounded-xl shadow-2xl">
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <!-- Step 1: Organization Info -->
       <section *ngIf="currentStep === 1">
         <h1 class="text-3xl font-bold mb-5">Organization Info</h1>
@@ -130,7 +130,7 @@
           <label for="applicant-document" class="text-xs font-semibold -mb-2">Proof of Document (JPG/PNG/PDF only)</label>
           <br/>
           <span class="text-xs text-gray-500"><i>*to verify you are the church organization's applicant</i></span>
-          <input type="file" id="applicant-document" accept=".png, .jpg, .jpeg, .pdf" formControlName="document"
+          <input type="file" id="applicant-document" accept=".png, .jpg, .jpeg, .pdf" formControlName="document" (change)="onFileChange($event)"
             class="text-sm w-full mt-2" required/>
         </div>
       </ng-container>
