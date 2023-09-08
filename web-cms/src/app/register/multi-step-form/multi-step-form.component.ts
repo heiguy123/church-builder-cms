@@ -13,8 +13,9 @@ import {
 } from '@angular/forms';
 import { StepperComponent } from '../stepper/stepper.component';
 import { Router } from '@angular/router';
-import { addDoc, collection, getFirestore, doc, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, getFirestore, doc, updateDoc, setDoc } from '@angular/fire/firestore';
 import { getDownloadURL, getMetadata, getStorage, ref, uploadBytesResumable } from '@angular/fire/storage';
+import { createUserWithEmailAndPassword, getAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-multi-step-form',
@@ -63,10 +64,27 @@ export class MultiStepFormComponent implements OnInit {
   async onSubmit() {
     this.lastPage = true;
 
-    // 1. save user details to cloud firestore at first
-    const firestore = getFirestore();
+    // 1. Create a new user account in firebase auth
+    const auth = getAuth();
+    const email = this.form.value.applicant.email;
+    const password = this.form.value.applicant.password;
+    let user = auth.currentUser;
 
-    const newDoc = await addDoc(collection(firestore, "users"), {
+    await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      // Signed in 
+      user = userCredential.user;
+      console.log('User created in firebase auth. Id: ' + user.uid);
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode + ": " + errorMessage);
+    });
+
+    // 2. save user details to cloud firestore at first
+    const firestore = getFirestore();
+    const userID = user!.uid;
+
+    const newDoc = await setDoc(doc(firestore, "users", userID), {
       orgName: this.form.value.organization.name,
       orgDenomination: this.form.value.organization.denomination,
       orgAddress: this.form.value.organization.address,
@@ -79,18 +97,19 @@ export class MultiStepFormComponent implements OnInit {
       email: this.form.value.applicant.email,
       password: this.form.value.applicant.password,
       role: '',
+      activated: false,
       docName: '',
       docCreatedDate: '',
       docUrl: '',
     });
-    console.log("User data stored in firestore. Id: " + newDoc.id);
+    console.log("User data stored in firestore. Id: " + userID);
 
-    // 2. upload document to storage
+    // 3. upload document to storage
     this.uploadFile().then(async (docMetaData: any) => {
       console.log('Image upload finished! update database');
       
-      // 3. update exisitng database record
-      const docRef = doc(firestore, "users", newDoc.id);
+      // 4. update exisitng database record
+      const docRef = doc(firestore, "users", userID);
       await updateDoc(docRef, {
         docName: docMetaData.fullPath,
         docCreatedDate: docMetaData.timeCreated,
@@ -99,7 +118,7 @@ export class MultiStepFormComponent implements OnInit {
       console.log('Database updated!');
     });
 
-    // 4. send email to master admin
+    // 5. send email to master admin
     this.sendEmailToMasterAdmin();
 
     this.form.reset();

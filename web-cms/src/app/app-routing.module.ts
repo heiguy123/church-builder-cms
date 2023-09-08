@@ -37,11 +37,11 @@ const routes: Routes = [
     HeaderComponent,
     SidenavComponent,
     HomeComponent,
-    LoginComponent,
     ForgotComponent
   ],
   imports: [
     RegisterComponent,
+    LoginComponent,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
