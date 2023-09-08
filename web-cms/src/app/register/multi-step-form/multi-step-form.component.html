@@ -1,0 +1,202 @@
+<div class="relative flex-grow flex-col w-full flex justify-center items-center pt-10">
+  <div class="relative w-full justify-center items-center mb-8">
+    <app-stepper [currentStep]="currentStep"></app-stepper>
+  </div>
+
+  <div class="w-full register-page-main-form bg-white px-10 py-8 rounded-xl shadow-2xl">
+    <form [formGroup]="form">
+      <!-- Step 1: Organization Info -->
+      <section *ngIf="currentStep === 1">
+        <h1 class="text-3xl font-bold mb-5">Organization Info</h1>
+        <ng-container formGroupName="organization">
+          <div class="w-full mb-5 relative">
+            <label for="org-name" class="text-xs pb-1 font-semibold">Organization Name</label>
+            <input type="text" id="org-name" placeholder="St. Joseph Church" formControlName="name"
+              class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-10 pr-8 hover:border-opacity-40" required>
+            <div aria-hidden="true" class="input-icon left-2 top-8 absolute w-4 h-4 fill-black opacity-20">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+            </div>
+          </div>
+          <div class="w-full mb-5 relative">
+            <label for="org-denomination" class="text-xs pb-1 font-semibold">Denomination</label>
+            <select id="org-denomination" formControlName="denomination"
+              class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-10 pr-8 hover:border-opacity-40" required>
+              <option default>Catholicism</option>
+              <option>Protestantism</option>
+              <option>Anglicanism</option>
+              <option>Not Applicable</option>
+            </select>
+            <div aria-hidden="true" class="input-icon left-2 top-8 absolute w-4 h-4 fill-black opacity-20">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
+              </svg>
+            </div>
+          </div>
+          <div class="w-full mb-5 relative">
+            <label for="org-address" class="text-xs pb-1 font-semibold">Address</label>
+            <input type="text" id="org-address" placeholder="26D Merserole Street" formControlName="address"
+              class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pr-8 pl-2 hover:border-opacity-40" required>
+          </div>
+          <div class="flex">
+            <div class="w-1/3 mr-4 mb-5 inline-block">
+              <label for="org-address" class="text-xs pb-1 font-semibold">City</label>
+              <input type="text" id="org-address" placeholder="Miri" formControlName="city"
+                class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-2 hover:border-opacity-40" required>
+            </div>
+            <div class="w-1/3 mr-4 mb-5 inline-block">
+              <label for="org-address" class="text-xs pb-1 font-semibold">State</label>
+              <select id="org-member" formControlName="state"
+                class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-2 hover:border-opacity-40" required>
+                <option default>Sarawak</option>
+                <option>Kuala Lumpur</option>
+                <option>Penang</option>
+                <option>Sabah</option>
+              </select>
+            </div>
+            <div class="w-1/3 mb-5 inline-block">
+              <label for="org-address" class="text-xs pb-1 font-semibold">Zip Code</label>
+              <input type="text" id="org-address" placeholder="98000" formControlName="zip"
+                class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-2 hover:border-opacity-40" required>
+            </div>
+          </div>
+          <div class="w-full mb-5 relative">
+            <label for="org-member" class="text-xs pb-1 font-semibold">Member Size</label>
+            <select id="org-member" formControlName="memberSize"
+              class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-10 pr-8 hover:border-opacity-40" required>
+              <option default>1 to 50</option>
+              <option>51 to 200</option>
+              <option>201 to 1000</option>
+              <option>More than 1000</option>
+            </select>
+            <div aria-hidden="true" class="input-icon left-2 top-8 absolute w-4 h-4 fill-black opacity-20">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+              </svg>
+            </div>
+          </div>
+        </ng-container>
+      </section>
+
+      <!-- Step 2: Applicant's Info -->
+      <section *ngIf="currentStep === 2">
+        <h1 class="text-3xl font-bold mb-5">Applicant's Info</h1>
+        <ng-container formGroupName="applicant">
+        <div class="flex">
+          <div class="w-1/2 mr-4 mb-5 inline-block">
+            <label for="applicant-first-name" class="text-xs pb-1 font-semibold">First Name</label>
+            <input type="text" id="applicant-first-name" placeholder="John" formControlName="firstName"
+              class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pr-8 pl-2 hover:border-opacity-40" required>
+          </div>
+          <div class="w-1/2 mr-4 mb-5 inline-block">
+            <label for="applicant-last-name" class="text-xs pb-1 font-semibold">Last Name</label>
+            <input type="text" id="applicant-last-name" placeholder="Doe" formControlName="lastName"
+              class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pr-8 pl-2 hover:border-opacity-40" required>
+          </div>
+        </div>
+        <div class="w-full mb-5 relative">
+          <label for="applicant-email" class="text-xs pb-1 font-semibold">Email</label>
+          <input type="email" id="applicant-email" placeholder="johndoe@mail.com" formControlName="email"
+            class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-10 pr-8 hover:border-opacity-40" required>
+          <div aria-hidden="true" class="input-icon left-2 top-8 absolute w-4 h-4 fill-black opacity-20">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+          </div>
+        </div>
+        <div class="w-full mb-5 relative">
+          <label for="applicant-password" class="text-xs pb-1 font-semibold">Password</label>
+          <input [type]="show ? 'text' : 'password'" id="applicant-password" placeholder="Minimum 8 characters" formControlName="password"
+            class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-10 pr-32 hover:border-opacity-40" required>
+          <div aria-hidden="true" class="input-icon left-2 top-8 absolute w-4 h-4 fill-black opacity-20">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+          </div>
+          <div class="w-full flex justify-between items-center h-0">
+            <a (click)="showPassword()" id="forgot-password" draggable="false"
+              class="relative cursor-pointer ml-auto mr-4 -top-5 text-xs text-mineral-green-500 font-semibold hover:underline">{{show ?
+              'Hide' : 'Show'}}</a>
+          </div>
+        </div>
+        <div class="w-full mb-5 relative">
+          <label for="applicant-document" class="text-xs font-semibold -mb-2">Proof of Document (JPG/PNG/PDF only)</label>
+          <br/>
+          <span class="text-xs text-gray-500"><i>*to verify you are the church organization's applicant</i></span>
+          <input type="file" id="applicant-document" accept=".png, .jpg, .jpeg, .pdf" formControlName="document"
+            class="text-sm w-full mt-2" required/>
+        </div>
+      </ng-container>
+      </section>
+
+      <!-- Summary -->
+      <section *ngIf="currentStep === 3 && !lastPage">
+        <h1 class="text-3xl font-bold mb-5">Summary</h1>
+        <article class="text-sm pb-10">
+          <h3 class="text-xl font-bold mb-2"><b>Organization Info</b></h3>
+          <p><b>Organization Name:</b> {{form.get('organization')!.get('name')!.value}}</p>
+          <p><b>Denomination:</b> {{form.get('organization')!.get('denomination')!.value}}</p>
+          <p><b>Address:</b> {{form.get('organization')!.get('address')!.value}}</p>
+          <p><b>City:</b> {{form.get('organization')!.get('city')!.value}}</p>
+          <p><b>State:</b> {{form.get('organization')!.get('state')!.value}}</p>
+          <p><b>Zip Code:</b> {{form.get('organization')!.get('zip')!.value}}</p>
+          <p><b>Member Size:</b> {{form.get('organization')!.get('memberSize')!.value}}</p>
+          <br/>
+          <h3 class="text-xl font-bold mb-2">Applicant's Info</h3>
+          <p><b>First Name:</b> {{form.get('applicant')!.get('firstName')!.value}}</p>
+          <p><b>Last Name:</b> {{form.get('applicant')!.get('lastName')!.value}}</p>
+          <p><b>Email:</b> {{form.get('applicant')!.get('email')!.value}}</p>
+          <p><b>Document:</b> {{form.get('applicant')!.get('document')!.value}}</p>
+        </article>
+      </section>
+
+      <!-- Nav -->
+      <nav
+        *ngIf="!lastPage"
+        [ngClass]="{ 'flex-row-reverse': currentStep === 1 }">
+        <button
+          [disabled]="form.get('organization')!.invalid || (form.get('applicant')!.invalid && currentStep === 2)"
+          *ngIf="currentStep !== 3"
+          (click)="changePage(true)"
+          type="button"
+          id="btn-next-step"
+          [ngClass]="{
+            'bg-gray-400': form.get('organization')!.invalid || (form.get('applicant')!.invalid && currentStep === 2),
+            'hover:bg-gray-400': form.get('organization')!.invalid || (form.get('applicant')!.invalid && currentStep === 2),
+          }"
+          class="justify-center w-full h-10 inline-flex items-center bg-mineral-green-500 text-white font-semibold border-0 py-2 px-3 focus:outline-none hover:bg-mineral-green-600 rounded drop-shadow-xl text-xs">
+          Next Step
+        </button>
+        <button
+          *ngIf="currentStep === 3"
+          type="submit"
+          class="justify-center w-full h-10 inline-flex items-center bg-mineral-green-500 text-white font-semibold border-0 py-2 px-3 focus:outline-none hover:bg-mineral-green-600 rounded drop-shadow-xl text-xs">
+          Confirm
+        </button>
+        <button
+          *ngIf="currentStep >= 2"
+          (click)="changePage(false)"
+          type="button"
+          class="justify-center w-full h-10 inline-flex items-center font-semibold border-0 mb-2 focus:outline-none hover:text-mineral-green-500 text-xs">
+          Go Back
+        </button>
+      </nav>
+    </form>
+  </div>
+
+  <div class="relative w-full flex justify-center items-center mt-8">
+    <div class="text-xs text-black">
+      Existing user?
+      <a (click)="goToLogin()" class="text-mineral-green-500 font-semibold hover:underline hover:cursor-pointer">Log In</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<section class="pt-7 flex justify-center gap-4">
+    <div *ngFor="let step of steps" class="xl:flex xl:items-center xl:gap-4">
+      <div
+        class="border font-semibold bg-white shadow-md text-sm rounded-full w-8 h-8 flex justify-center items-center"
+        [ngClass]="{
+          'bg-mineral-green-700 border-none': currentStep === step
+        }"
+      >
+        <p
+          [ngClass]="{
+            'text-white': currentStep === step
+          }"
+        >
+          {{ step }}
+        </p>
+      </div>
+      <div class="hidden xl:block">
+        <p class="text-sm -mb-[0.25rem]">STEP {{ step }}</p>
+        <p class="font-medium">
+          {{
+            step === 1
+              ? "Organization Info"
+            : step === 2
+              ? "Applicant Info"
+            : "Summary"
+          }}
+        </p>
+      </div>
+    </div>
+  </section>

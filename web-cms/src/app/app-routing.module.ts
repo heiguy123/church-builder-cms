@@ -38,10 +38,12 @@ const routes: Routes = [
     SidenavComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent,
     ForgotComponent
   ],
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RegisterComponent,
+    RouterModule.forRoot(routes)
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
