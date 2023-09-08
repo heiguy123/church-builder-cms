@@ -14,7 +14,7 @@ import {
 import { StepperComponent } from '../stepper/stepper.component';
 import { Router } from '@angular/router';
 import { addDoc, collection, getFirestore, doc, updateDoc } from '@angular/fire/firestore';
-import { getDownloadURL, getMetadata, getStorage, ref, uploadBytes, uploadBytesResumable } from '@angular/fire/storage';
+import { getDownloadURL, getMetadata, getStorage, ref, uploadBytesResumable } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-multi-step-form',
@@ -78,6 +78,7 @@ export class MultiStepFormComponent implements OnInit {
       lastName: this.form.value.applicant.lastName,
       email: this.form.value.applicant.email,
       password: this.form.value.applicant.password,
+      role: '',
       docName: '',
       docCreatedDate: '',
       docUrl: '',
@@ -97,9 +98,11 @@ export class MultiStepFormComponent implements OnInit {
       });
       console.log('Database updated!');
     });
-    
+
+    // 4. send email to master admin
+    this.sendEmailToMasterAdmin();
+
     this.form.reset();
-    this.router.navigate(['/login']);
   }
 
   onFileChange(event: any) {
@@ -165,5 +168,24 @@ export class MultiStepFormComponent implements OnInit {
     } else {
       this.currentStep--;
     }
+  }
+
+  async sendEmailToMasterAdmin() {
+    const recipient = this.form.value.applicant.email;
+    const recipientName = this.form.value.applicant.firstName + ' ' + this.form.value.applicant.lastName;
+
+    const firestore = getFirestore();
+
+    const newDoc = await addDoc(collection(firestore, "mail"), {
+      to: recipient,
+      message: {
+        subject: 'New user registratio from ' + recipientName + ' (' + recipient + ')',
+        text: 'New user registration from ' + recipientName + ' (' + recipient + ')',
+        html: 'New user registration from ' + recipientName + ' (' + recipient + ')'+ 
+        '\nPlease login the dashboard to approve the registration.',
+      }
+    });
+
+    console.log("Email data stored in firestore. Id: " + newDoc.id);
   }
 }

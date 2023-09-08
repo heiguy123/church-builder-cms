@@ -157,6 +157,18 @@
         </article>
       </section>
 
+      <!-- Thank You Page -->
+      <section *ngIf="lastPage">
+        <h1 class="text-3xl font-bold mb-5 text-center">Thank You!</h1>
+        <p class="mb-3">
+          Thanks for confirming your subscription! We will review your application and get back to you as soon as possible.
+        </p>
+        <button
+          class="justify-center w-full h-10 inline-flex items-center bg-mineral-green-500 text-white font-semibold border-0 py-2 px-3 focus:outline-none hover:bg-mineral-green-600 rounded drop-shadow-xl text-xs" (click)="goToLogin()">
+          Log In
+        </button>
+      </section>
+
       <!-- Nav -->
       <nav
         *ngIf="!lastPage"

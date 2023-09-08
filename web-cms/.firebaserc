@@ -1,4 +1,7 @@
 {
+  "projects": {
+    "default": "ccms-app-builder"
+  },
   "targets": {
     "ccms-app-builder": {
       "hosting": {
@@ -8,7 +11,11 @@
       }
     }
   },
-  "projects": {
-    "default": "ccms-app-builder"
+  "etags": {
+    "ccms-app-builder": {
+      "extensionInstances": {
+        "firestore-send-email": "9ac547787d48bd2d411922a267a78c45355016fe12e10d9c567d54c3cd3158b9"
+      }
+    }
   }
 }
