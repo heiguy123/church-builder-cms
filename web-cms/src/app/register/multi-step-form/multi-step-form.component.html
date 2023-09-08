@@ -53,10 +53,8 @@
               <label for="org-address" class="text-xs pb-1 font-semibold">State</label>
               <select id="org-member" formControlName="state"
                 class="text-sm w-full border-black border-opacity-20 border rounded-md h-10 pl-2 hover:border-opacity-40" required>
-                <option default>Sarawak</option>
-                <option>Kuala Lumpur</option>
-                <option>Penang</option>
-                <option>Sabah</option>
+                <option value="">Choose City</option>
+                <option *ngFor="let state of states" [value]="state">{{state}}</option>
               </select>
             </div>
             <div class="w-1/3 mb-5 inline-block">
