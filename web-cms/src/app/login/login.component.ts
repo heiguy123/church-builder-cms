@@ -53,11 +53,14 @@ export class LoginComponent implements OnInit {
        const docSnap = await getDoc(docRef);
  
        if (docSnap.exists()) {
+        
           if (!docSnap.data()['activated']) {
             window.alert("Your account is not activated yet. Please contact your administrator.");
             return;
           }
 
+          this.form.reset();
+          
           if (docSnap.data()['role'] == "master") {
             this.router.navigate(['/master-admin']);
           } else if (docSnap.data()['role'] == "super") {
