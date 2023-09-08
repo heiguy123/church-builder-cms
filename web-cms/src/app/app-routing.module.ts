@@ -4,8 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MasterAdminAuthGuard } from './auth/master-admin-auth.guard';
 import { SuperAdminAuthGuard } from './auth/super-admin-auth.guard';
 import { TechAdminAuthGuard } from './auth/tech-admin-auth.guard';
-import { HeaderComponent } from './shared-modules/header/header.component';
-import { SidenavComponent } from './shared-modules/sidenav/sidenav.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -34,8 +32,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    HeaderComponent,
-    SidenavComponent,
     HomeComponent,
     ForgotComponent
   ],

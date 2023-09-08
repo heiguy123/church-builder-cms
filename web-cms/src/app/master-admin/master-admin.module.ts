@@ -12,11 +12,11 @@ const MasterAdminModuleRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    DashboardComponent,
     WorkspaceComponent
   ],
   imports: [
     CommonModule,
+    DashboardComponent,
     RouterModule.forChild(MasterAdminModuleRoutes)
   ],
   exports: [RouterModule]
