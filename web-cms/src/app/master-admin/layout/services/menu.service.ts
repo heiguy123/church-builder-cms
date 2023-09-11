@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Menu } from 'src/app/core/constants/menu';
+import { MasterAdminMenu } from 'src/app/core/constants/master-admin-menu';
 import { MenuItem, SubMenuItem } from 'src/app/core/models/menu.model';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class MenuService implements OnDestroy {
 
   constructor(private router: Router) {
     /** Set dynamic menu */
-    this._pagesMenu.set(Menu.pages);
+    this._pagesMenu.set(MasterAdminMenu.pages);
 
     let sub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -41,18 +41,12 @@ export class MenuService implements OnDestroy {
   get showSideBar() {
     return this._showSidebar();
   }
-  get showMobileMenu() {
-    return this._showMobileMenu();
-  }
   get pagesMenu() {
     return this._pagesMenu();
   }
 
   set showSideBar(value: boolean) {
     this._showSidebar.set(value);
-  }
-  set showMobileMenu(value: boolean) {
-    this._showMobileMenu.set(value);
   }
 
   public toggleSidebar() {

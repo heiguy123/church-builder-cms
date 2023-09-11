@@ -21,8 +21,4 @@ export class NavbarComponent implements OnInit {
   constructor(private menuService: MenuService) {}
 
   ngOnInit(): void {}
-
-  public toggleMobileMenu(): void {
-    this.menuService.showMobileMenu = true;
-  }
 }

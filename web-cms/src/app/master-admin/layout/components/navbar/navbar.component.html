@@ -1,25 +1,19 @@
-<div class="relative bg-white dark:bg-night-700">
+<div class="relative bg-white">
     <div class="mx-auto px-5">
       <div class="flex items-center justify-between py-3.5 md:justify-start">
-        <!-- Mobile Navigation Menu Button-->
-        <div class="sm:order-1 md:hidden">
-          <button
-            (click)="toggleMobileMenu()"
-            type="button"
-            class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 hover:bg-gray-100 hover:text-gray-500 dark:bg-night-700 dark:text-night-200 dark:hover:text-night-400"
-            aria-expanded="false">
-            <span class="sr-only">Open menu</span>
-            <!-- Heroicon name: outline/menu -->
-            <svg-icon src="assets/icons/heroicons/outline/menu.svg" [svgClass]="'h-6 w-6'"> </svg-icon>
-          </button>
-        </div>
   
         <!-- Logo -->
         <div class="flex items-center justify-start sm:order-2 md:mr-10 lg:hidden">
           <a class="flex items-center justify-center rounded bg-primary-500 p-2 focus:outline-none focus:ring-1">
-            <svg-icon src="assets/icons/logo.svg"> [svgClass]="'h-5 w-5'"> </svg-icon>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+            stroke="currentColor" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="2"
+            class="w-8 h-8 text-white p-2 bg-mineral-green-500 rounded-full"
+            viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
           </a>
-          <b class="hidden pl-3 text-sm font-bold dark:text-night-50 sm:block"> Angular Tailwind </b>
+          <b class="hidden pl-3 text-sm font-bold sm:block"> My Church App CMS </b>
         </div>
   
         <!-- Desktop Menu -->
