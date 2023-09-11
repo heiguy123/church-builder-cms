@@ -20,9 +20,6 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forgot', component: ForgotComponent },
 
-  // Shared Routes or Routes that are accessible by all users
-  { path: 'shared', loadChildren: () => import('./shared-modules/shared-modules.module').then(m => m.SharedModulesModule)},
-
   // Private Routes or Routes that require authentication
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard] },
   { path: 'master-admin', loadChildren: () => import('./master-admin/master-admin.module').then(m => m.MasterAdminModule), canActivate: [MasterAdminAuthGuard] },
