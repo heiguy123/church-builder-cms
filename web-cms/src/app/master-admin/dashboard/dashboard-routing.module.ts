@@ -9,7 +9,7 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
       { path: '', redirectTo: 'app-user-request', pathMatch: 'full' },
-      { path: 'app-user-request', component: UserRequestComponent },
+      { path: 'app-user-request', component: UserRequestComponent, loadChildren: () => import('./pages/user-request/user-request-route.module').then(m => m.ROUTES) },
     ],
   },
 ];

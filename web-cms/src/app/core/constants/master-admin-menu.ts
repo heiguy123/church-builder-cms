@@ -9,10 +9,10 @@ export class MasterAdminMenu {
         {
           icon: '../../../assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Dashboard',
-          route: '/dashboard',
+          route: 'master-admin/dashboard',
           children: [
-            { label: 'Workspace', route: '/dashboard/workspace' },
-            { label: 'User Request', route: '/dashboard/user-request' },
+            { label: 'Workspace', route: 'workspace' },
+            { label: 'User Request', route: 'app-user-request' },
           ],
         },
         {
