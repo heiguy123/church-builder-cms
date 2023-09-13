@@ -12,10 +12,6 @@ export class SingleUserRequestComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id'); // Use the correct parameter name
-    if (id) {
-      window.alert(id);
-    } else {
-      window.alert("No id found");
-    }
+    
   }
 }
