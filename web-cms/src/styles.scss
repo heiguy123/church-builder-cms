@@ -2,3 +2,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+@layer components {
+	.dropdown-content {
+		@apply pointer-events-none scale-95 opacity-0 duration-100 ease-in;
+	}
+
+	.dropdown:hover > .dropdown-content {
+		@apply pointer-events-auto block scale-100 animate-fade-in-up opacity-100 duration-200;
+	}
+}
+
