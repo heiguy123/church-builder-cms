@@ -24,11 +24,11 @@
   </td>
   <td class="py-2 pl-2 text-right">
     <div class="flex justify-end">
-      <button
-        [routerLink]="[table.request_id]"
+      <a
+        routerLink="details/{{ table.request_id }}"
         class="flex h-7 w-7 items-center justify-center rounded-md bg-gray-200 text-gray-400 hover:text-white hover:bg-mineral-green-600">
         <svg-icon src="../../../../../assets/icons/heroicons/outline/arrow-sm-right.svg" [svgClass]="'h-5 w-5'"> </svg-icon>
-      </button>
+    </a>
     </div>
   </td>
 

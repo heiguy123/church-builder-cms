@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,15 +8,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./single-user-request.component.scss']
 })
 export class SingleUserRequestComponent implements OnInit {
-  // @Input() userId = "";
-
-  private route = inject(ActivatedRoute);
-
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // console.log(this.userId);
-    const id = String(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id'); // Use the correct parameter name
     if (id) {
       window.alert(id);
     } else {
