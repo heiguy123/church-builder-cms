@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { getAuth, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { doc, getDoc, getFirestore } from '@angular/fire/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -56,7 +56,8 @@ export class LoginComponent implements OnInit {
         this.form.reset();
         this.router.navigate(['/master-admin']);
       } else {
-        docRef = doc(firestore, 'users', userID);
+        // read from user requests (for those who are not yet activated)
+        docRef = doc(firestore, 'user-requests', userID);
         docSnap = await getDoc(docRef);
     
         if (docSnap.exists()) {
@@ -64,19 +65,25 @@ export class LoginComponent implements OnInit {
             window.alert("Your account is not activated yet. Please contact your administrator.");
             return;
           }
-    
-          this.form.reset();
-          
-          if (docSnap.data()['role'] == "super") {
-            this.router.navigate(['/super-admin']);
-          } else if (docSnap.data()['role'] == "tech") {
-            this.router.navigate(['/tech-admin']);
-          } else if (docSnap.data()['role'] == "admin") {
-            this.router.navigate(['/admin']);
-          } else {
-            window.alert("You are not authorized to access this page.");
-          }
         }
+
+        // esle, read through every workspace and find if the user existed
+        const querySnapshot = await getDocs(collection(firestore, "workspaces"));
+        querySnapshot.forEach((workspace) => {
+          const user_id = workspace.data()['users']['id'];
+
+          if (user_id == userID) {
+            if (workspace.data()['users']['role'] == "super") {
+              this.router.navigate(['/super-admin']);
+            } else if (workspace.data()['users']['role'] == "tech") {
+              this.router.navigate(['/tech-admin']);
+            } else if (workspace.data()['users']['role'] == "admin") {
+              this.router.navigate(['/admin']);
+            }
+          }
+        });
+
+        this.form.reset();
       }
     }
   }
