@@ -11,7 +11,7 @@ export class MasterAdminMenu {
           label: 'Dashboard',
           route: 'master-admin/dashboard',
           children: [
-            { label: 'Workspace', route: 'workspace' },
+            { label: 'Workspace', route: 'app-workspace' },
             { label: 'User Request', route: 'app-user-request' },
           ],
         },
