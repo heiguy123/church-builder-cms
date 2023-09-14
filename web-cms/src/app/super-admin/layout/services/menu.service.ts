@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MasterAdminMenu } from 'src/app/core/constants/master-admin-menu';
+import { SuperAdminMenu } from 'src/app/core/constants/super-admin-menu';
 import { MenuItem, SubMenuItem } from 'src/app/core/models/menu.model';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class MenuService implements OnDestroy {
 
   constructor(private router: Router) {
     /** Set dynamic menu */
-    this._pagesMenu.set(MasterAdminMenu.pages);
+    this._pagesMenu.set(SuperAdminMenu.pages);
 
     let sub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
