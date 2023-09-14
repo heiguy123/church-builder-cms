@@ -70,17 +70,21 @@ export class LoginComponent implements OnInit {
         // esle, read through every workspace and find if the user existed
         const querySnapshot = await getDocs(collection(firestore, "workspaces"));
         querySnapshot.forEach((workspace) => {
-          const user_id = workspace.data()['users']['id'];
+          const userdb = workspace.data()['users'];
+          userdb.forEach((user: { [x: string]: any; }) => {
+            const user_id = user['id'];
 
-          if (user_id == userID) {
-            if (workspace.data()['users']['role'] == "super") {
-              this.router.navigate(['/super-admin']);
-            } else if (workspace.data()['users']['role'] == "tech") {
-              this.router.navigate(['/tech-admin']);
-            } else if (workspace.data()['users']['role'] == "admin") {
-              this.router.navigate(['/admin']);
+            if (user_id == userID) {
+              if (user['role'] == "super") {
+                this.router.navigate(['/super-admin']);
+              } else if (user['role'] == "tech") {
+                this.router.navigate(['/tech-admin'])
+              } else if (user['role'] == "admin") {
+                this.router.navigate(['/admin']);
+              }
             }
-          }
+          });
+          
         });
 
         this.form.reset();

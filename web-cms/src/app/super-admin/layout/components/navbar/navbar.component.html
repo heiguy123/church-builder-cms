@@ -1,0 +1,30 @@
+<div class="relative bg-white">
+    <div class="mx-auto px-5">
+      <div class="flex items-center justify-between py-3.5 md:justify-start">
+  
+        <!-- Logo -->
+        <div class="flex items-center justify-start sm:order-2 md:mr-10 lg:hidden">
+          <a class="flex items-center justify-center rounded bg-primary-500 p-2 focus:outline-none focus:ring-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+            stroke="currentColor" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="2"
+            class="w-8 h-8 text-white p-2 bg-mineral-green-500 rounded-full"
+            viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+          </a>
+          <b class="hidden pl-3 text-sm font-bold sm:block"> My Church App CMS </b>
+        </div>
+  
+        <!-- Desktop Menu -->
+        <div class="hidden space-x-10 sm:order-3 md:flex">
+          <app-navbar-menu></app-navbar-menu>
+        </div>
+  
+        <!-- Profile menu -->
+        <div class="items-center justify-end sm:order-4 md:flex md:flex-1 lg:w-0">
+          <app-profile-menu></app-profile-menu>
+        </div>
+      </div>
+    </div>
+  </div>
