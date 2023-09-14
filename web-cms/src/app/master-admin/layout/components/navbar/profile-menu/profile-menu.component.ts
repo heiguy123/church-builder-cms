@@ -49,15 +49,22 @@ export class ProfileMenuComponent implements OnInit {
         const userID = getAuth().currentUser!.uid;
         console.log("User ID: " + userID);
         if (userID != null) {
-          const docRef = doc(firestore, 'users', userID);
-          const docSnap = await getDoc(docRef);
+          let docRef = doc(firestore, 'master', userID);
+          let docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
           this.profileName = docSnap.data()['firstName'] + " " + docSnap.data()['lastName'];
           this.profileEmail = docSnap.data()['email'];
           } else {
-            console.log("No such user found!");
-            this.router.navigate(['/login']);
+            docRef = doc(firestore, 'users', userID);
+            docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              this.profileName = docSnap.data()['firstName'] + " " + docSnap.data()['lastName'];
+              this.profileEmail = docSnap.data()['email'];
+            } else {
+              console.log("No such user found!");
+              this.router.navigate(['/login']);
+            }
           }
         }
       }

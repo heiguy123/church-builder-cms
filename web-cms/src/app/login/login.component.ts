@@ -45,25 +45,29 @@ export class LoginComponent implements OnInit {
     }
 
     if (user != null) {
-       // 2. If valid, check if user is master, super, or admin in firestore roles
-       const firestore = getFirestore();
-       const userID = user.uid;
+      // 2. If valid, check if user is master, super, or admin in firestore roles
+      const firestore = getFirestore();
+      const userID = user.uid;
 
-       const docRef = doc(firestore, 'users', userID);
-       const docSnap = await getDoc(docRef);
- 
-       if (docSnap.exists()) {
-        
+      let docRef = doc(firestore, 'master', userID);
+      let docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        this.form.reset();
+        this.router.navigate(['/master-admin']);
+      } else {
+        docRef = doc(firestore, 'users', userID);
+        docSnap = await getDoc(docRef);
+    
+        if (docSnap.exists()) {
           if (!docSnap.data()['activated']) {
             window.alert("Your account is not activated yet. Please contact your administrator.");
             return;
           }
-
+    
           this.form.reset();
           
-          if (docSnap.data()['role'] == "master") {
-            this.router.navigate(['/master-admin']);
-          } else if (docSnap.data()['role'] == "super") {
+          if (docSnap.data()['role'] == "super") {
             this.router.navigate(['/super-admin']);
           } else if (docSnap.data()['role'] == "tech") {
             this.router.navigate(['/tech-admin']);
@@ -72,12 +76,11 @@ export class LoginComponent implements OnInit {
           } else {
             window.alert("You are not authorized to access this page.");
           }
-       } else {
-         // doc.data() will be undefined in this case
-         console.log("No such user found!");
-       }
+        }
+      }
     }
   }
+
 
   goToRegister() : void {
     this.router.navigate(['/register']);

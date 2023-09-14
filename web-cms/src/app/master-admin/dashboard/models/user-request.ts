@@ -1,14 +1,4 @@
 export interface UserRequest {
-    // id: number;
-    // title: string;
-    // last_bid?: number;
-    // price: number;
-    // creator?: string;
-    // avatar?: string;
-    // instant_price?: number;
-    // ending_in?: string;
-    // image: string;
-
     request_id: string;
     creation_date: string;
     organization_name: string;
@@ -21,7 +11,7 @@ export interface UserRequest {
     organization_city?: string;
     organization_state?: string;
     organization_zip?: string;
-    organizatiton_demonination?: string;
+    organizatiton_denomination?: string;
     organization_member_size?: string;
     role?: string;
   }
