@@ -24,12 +24,21 @@ export class SuperAdminMenu {
           ],
         },
         {
+          icon: '../../../assets/icons/heroicons/outline/photo.svg',
+          label: 'Media Library',
+          route: 'super-admin/media',
+          children: [
+            { label: 'View Media', route: '' },
+            { label: 'Upload Media', route: '' },
+          ],
+        },
+        {
           icon: '../../../assets/icons/heroicons/outline/user-circle.svg',
           label: 'Account',
           route: 'super-admin/account',
           children: [
-            { label: 'View Accounts', route: '' },
-            { label: 'Create Account', route: '' },
+            { label: 'View Accounts', route: '/super-admin/account/app-view-account' },
+            { label: 'Create Account', route: '/super-admin/account/app-create-account' },
           ],
         },
         {

@@ -4,19 +4,22 @@ import { getAuth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule],
   standalone: true,
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [CookieService],
 })
 export class LoginComponent implements OnInit { 
   form!: FormGroup;
 
   constructor (
     private router: Router,
+    private cookieService: CookieService
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +57,12 @@ export class LoginComponent implements OnInit {
 
       if (docSnap.exists()) {
         this.form.reset();
+
+        // set coookies
+
+        this.cookieService.set('id', userID, { expires: 1, sameSite: 'Lax'});
+        this.cookieService.set('email', email, { expires: 1, sameSite: 'Lax'});
+        this.cookieService.set('role', 'master', { expires: 1, sameSite: 'Lax'});
         this.router.navigate(['/master-admin']);
       } else {
         // read from user requests (for those who are not yet activated)
@@ -75,11 +84,17 @@ export class LoginComponent implements OnInit {
             const user_id = user['id'];
 
             if (user_id == userID) {
+              this.cookieService.set('id', userID, { expires: 1, sameSite: 'Lax'});
+              this.cookieService.set('email', email, { expires: 1, sameSite: 'Lax'});
+              this.cookieService.set('workspaceID', workspace.id, { expires: 1, sameSite: 'Lax'});
               if (user['role'] == "super") {
+                this.cookieService.set('role', 'super', { expires: 1, sameSite: 'Lax'});
                 this.router.navigate(['/super-admin']);
               } else if (user['role'] == "tech") {
+                this.cookieService.set('role', 'tech', { expires: 1, sameSite: 'Lax'});
                 this.router.navigate(['/tech-admin'])
               } else if (user['role'] == "admin") {
+                this.cookieService.set('role', 'admin', { expires: 1, sameSite: 'Lax'});
                 this.router.navigate(['/admin']);
               }
             }
