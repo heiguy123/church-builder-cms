@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from '../../models/account';
-import { ActivatedRoute } from '@angular/router';
-import { doc, getDoc, getFirestore } from '@angular/fire/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
+import { doc, getDoc, getFirestore, updateDoc } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -16,7 +16,8 @@ export class SingleAccountComponent implements OnInit {
   
   constructor(
     private route: ActivatedRoute,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private router : Router
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +47,27 @@ export class SingleAccountComponent implements OnInit {
           }
         ];
         return;
+      }
+    }
+  }
+
+  async deactivateAccount() {
+    // Update the user account to be deactivated
+    const firestore = getFirestore();
+    const userID = this.table[0].id;
+    const workspaceId = this.cookieService.get('workspaceID');
+    let docRef = doc(firestore, 'workspaces', workspaceId);
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const users = docSnap.data()['users'];
+      const user = users.find((user: any) => user.id === userID);
+      if (user !== undefined) {
+        user.activated = false;
+        await updateDoc(docRef, {
+          users: users,
+        });
+        console.log('User deactivated.');
+        this.router.navigate(['/super-admin/account/app-view-account']);
       }
     }
   }
