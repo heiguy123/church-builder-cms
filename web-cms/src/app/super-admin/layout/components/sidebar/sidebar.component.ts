@@ -5,6 +5,7 @@ import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgClass, NgIf } from '@angular/common';
 import { getAuth, signOut } from '@angular/fire/auth';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,10 +19,11 @@ import { getAuth, signOut } from '@angular/fire/auth';
       SidebarMenuComponent,
       RouterLink,
   ],
+  providers: [ CookieService ]
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private router: Router, public menuService: MenuService) {}
+  constructor(private router: Router, public menuService: MenuService, private cookieService: CookieService) {}
 
   ngOnInit(): void {}
 
@@ -32,6 +34,10 @@ export class SidebarComponent implements OnInit {
   public signOut() {
     const auth = getAuth();
     signOut(auth).then(() => {
+      if (this.cookieService.getAll()) {
+        this.cookieService.deleteAll();
+        console.log('Cookie deleted.');
+      }
       console.log('Sign-out successful.');
       this.router.navigate(['/login']);
     }).catch((error) => {

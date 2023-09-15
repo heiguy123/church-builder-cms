@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
         this.cookieService.set('id', userID, { expires: 1, sameSite: 'Lax'});
         this.cookieService.set('email', email, { expires: 1, sameSite: 'Lax'});
         this.cookieService.set('role', 'master', { expires: 1, sameSite: 'Lax'});
+        console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role'));
         this.router.navigate(['/master-admin']);
       } else {
         // read from user requests (for those who are not yet activated)
@@ -89,12 +90,15 @@ export class LoginComponent implements OnInit {
               this.cookieService.set('workspaceID', workspace.id, { expires: 1, sameSite: 'Lax'});
               if (user['role'] == "super") {
                 this.cookieService.set('role', 'super', { expires: 1, sameSite: 'Lax'});
+                console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role') + ', Workspace ID: ' + this.cookieService.get('workspaceID'));
                 this.router.navigate(['/super-admin']);
               } else if (user['role'] == "tech") {
                 this.cookieService.set('role', 'tech', { expires: 1, sameSite: 'Lax'});
+                console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role') + ', Workspace ID: ' + this.cookieService.get('workspaceID'));
                 this.router.navigate(['/tech-admin'])
               } else if (user['role'] == "admin") {
                 this.cookieService.set('role', 'admin', { expires: 1, sameSite: 'Lax'});
+                console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role') + ', Workspace ID: ' + this.cookieService.get('workspaceID'));
                 this.router.navigate(['/admin']);
               }
             }

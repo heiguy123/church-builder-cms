@@ -4,6 +4,7 @@ import { NgClass } from '@angular/common';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
 import { Auth, getAuth, onAuthStateChanged, signOut } from '@angular/fire/auth';
 import { collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/firestore';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-profile-menu',
@@ -15,13 +16,14 @@ import { collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/fi
         NgClass,
         RouterLink,
     ],
+    providers: [ CookieService ]
 })
 export class ProfileMenuComponent implements OnInit {
   public isMenuOpen = false;
   profileName = "";
   profileEmail = "";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cookieService: CookieService) {}
 
   ngOnInit(): void {
     this.getUserInfo();
@@ -34,6 +36,10 @@ export class ProfileMenuComponent implements OnInit {
   public signOut() {
     const auth = getAuth();
     signOut(auth).then(() => {
+      if (this.cookieService.getAll()) {
+        this.cookieService.deleteAll();
+        console.log('Cookie deleted.');
+      }
       console.log('Sign-out successful.');
       this.router.navigate(['/login']);
     }).catch((error) => {
