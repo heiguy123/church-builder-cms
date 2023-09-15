@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-account-table',
+  selector: '[app-account-table]',
   templateUrl: './account-table.component.html',
   standalone: true,
   imports: [ AccountTableItemComponent, CommonModule, RouterLink ],
