@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { createUserWithEmailAndPassword, getAuth } from '@angular/fire/auth';
-import { doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
+import { addDoc, doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { collection } from '@firebase/firestore';
 import { CookieService } from 'ngx-cookie-service';
@@ -76,10 +76,30 @@ export class CreateAccountComponent implements OnInit {
         users.push(newUser);
         await setDoc(doc(firestore, 'workspaces', workspaceId), { users: users }, { merge: true });
         console.log('User created in firestore. Id: ' + userID);
+
+        // 3. Send a verification email to the user
+        this.sendEmailToNewUser();
+
         this.router.navigate(['/super-admin/account/app-view-account']);
       }
     }
+  }
 
-    // 3. Send a verification email to the user
+  async sendEmailToNewUser() {
+    const recipient = this.form.value.applicant.email;
+    const recipientName = this.form.value.applicant.firstName + ' ' + this.form.value.applicant.lastName;
+
+    const firestore = getFirestore();
+
+    const newDoc = await addDoc(collection(firestore, "mail"), {
+      to: recipient,
+      message: {
+        subject: 'Congrats! ' + recipientName + ' (' + recipient + ')',
+        text: 'Your application has been approved. Please login to the dashboard to start using the app.',
+        html: 'Your application has been approved. Please login to the dashboard to start using the app.',
+      }
+    });
+    
+    this.router.navigate(['super-admin/account/app-view-account']);
   }
 }
