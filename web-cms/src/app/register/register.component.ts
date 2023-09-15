@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MultiStepFormComponent } from './multi-step-form/multi-step-form.component';
@@ -7,7 +8,7 @@ import { MultiStepFormComponent } from './multi-step-form/multi-step-form.compon
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  imports: [MultiStepFormComponent],
+  imports: [MultiStepFormComponent, NgClass],
   standalone: true,
 })
 export class RegisterComponent {

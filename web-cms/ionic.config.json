@@ -1,0 +1,7 @@
+{
+  "name": "web-cms",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

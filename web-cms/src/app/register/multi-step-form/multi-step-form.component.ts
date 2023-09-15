@@ -84,7 +84,7 @@ export class MultiStepFormComponent implements OnInit {
     const firestore = getFirestore();
     const userID = user!.uid;
 
-    const newDoc = await setDoc(doc(firestore, "users", userID), {
+    const newDoc = await setDoc(doc(firestore, "user-requests", userID), {
       orgName: this.form.value.organization.name,
       orgDenomination: this.form.value.organization.denomination,
       orgAddress: this.form.value.organization.address,
@@ -96,7 +96,6 @@ export class MultiStepFormComponent implements OnInit {
       lastName: this.form.value.applicant.lastName,
       email: this.form.value.applicant.email,
       password: this.form.value.applicant.password,
-      role: '',
       activated: false,
       docName: '',
       docCreatedDate: '',
@@ -109,7 +108,7 @@ export class MultiStepFormComponent implements OnInit {
       console.log('Image upload finished! update database');
       
       // 4. update exisitng database record
-      const docRef = doc(firestore, "users", userID);
+      const docRef = doc(firestore, "user-requests", userID);
       await updateDoc(docRef, {
         docName: docMetaData.fullPath,
         docCreatedDate: docMetaData.timeCreated,
