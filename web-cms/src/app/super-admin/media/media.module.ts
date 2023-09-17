@@ -3,6 +3,8 @@ import { UploadMediaComponent } from './pages/upload-media/upload-media.componen
 import { ViewMediaComponent } from './pages/view-media/view-media.component';
 import { MediaRoutingModule } from './media-routing.module';
 import { DropzoneDirective } from './components/dropzone.directive';
+import { MediaTableComponent } from './components/media-table/media-table.component';
+import { MediaTableItemComponent } from './components/media-table-item/media-table-item.component';
 
 
 
@@ -11,10 +13,12 @@ import { DropzoneDirective } from './components/dropzone.directive';
     UploadMediaComponent,
     ViewMediaComponent,
     MediaRoutingModule,
-    DropzoneDirective
+    DropzoneDirective,
+    MediaTableComponent,
+    MediaTableItemComponent
   ],
   declarations: [
-    
+
   ]
 })
 export class MediaModule { }
