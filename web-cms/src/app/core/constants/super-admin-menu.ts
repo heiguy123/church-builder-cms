@@ -19,8 +19,8 @@ export class SuperAdminMenu {
           label: 'Post',
           route: 'super-admin/post',
           children: [
-            { label: 'View Posts', route: '' },
-            { label: 'Create Post', route: '' },
+            { label: 'View Posts', route: '/super-admin/post/app-view-post' },
+            { label: 'Create Post', route: '/super-admin/post/app-create-post' },
           ],
         },
         {
