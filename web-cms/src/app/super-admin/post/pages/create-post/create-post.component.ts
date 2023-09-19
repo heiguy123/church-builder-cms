@@ -3,13 +3,14 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { HTMLRichTextEditorComponent } from '../../components/html-rich-text-editor/html-rich-text-editor.component';
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
   standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule ],
+  imports: [ CommonModule, ReactiveFormsModule, HTMLRichTextEditorComponent ],
   providers: [ CookieService ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,5 +29,8 @@ export class CreatePostComponent implements OnInit {
         tags: new FormControl(null, [Validators.required,]),
       }),
     });
+  }
+
+  onSubmit(): void {
   }
 }

@@ -6,6 +6,7 @@ import { SinglePostComponent } from './pages/single-post/single-post.component';
 import { PostTableComponent } from './components/post-table/post-table.component';
 import { PostTableItemComponent } from './components/post-table-item/post-table-item.component';
 import { PostRoutingModule } from './post-routing.module';
+import { HTMLRichTextEditorComponent } from './components/html-rich-text-editor/html-rich-text-editor.component';
 
 
 
@@ -18,7 +19,8 @@ import { PostRoutingModule } from './post-routing.module';
     SinglePostComponent,
     PostTableComponent,
     PostTableItemComponent,
-    PostRoutingModule
+    PostRoutingModule,
+    HTMLRichTextEditorComponent
   ]
 })
 export class PostModule { }
