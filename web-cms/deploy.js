@@ -3,8 +3,10 @@ const { exec } = require('child_process');
 // Command to make the script executable
 const makeExecutableCommand = 'chmod +x deploy_selected_layout.sh';
 
+const layoutSelection = "layout-1";
+
 // Command to execute the deployment script
-const deployCommand = './deploy_selected_layout.sh';
+const deployCommand = './deploy_selected_layout.sh' + ' ' + layoutSelection;
 
 // Execute the commands
 exec(makeExecutableCommand, (error, stdout, stderr) => {
