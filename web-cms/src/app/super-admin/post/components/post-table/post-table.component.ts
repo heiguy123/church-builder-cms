@@ -31,14 +31,16 @@ export class PostTableComponent implements OnInit {
       if (doc.exists()) {
         const posts = doc.data()['posts'];
         posts.forEach((post: any) => {
-          this.activeTable.push({
-            id: post['id'],
-            title: post['title'],
-            HTMLContent: post['HTMLContent'],
-            timestamp: post['timestamp'],
-            status: post['status'],
-            visibility: post['visibility'],
-          });
+          if (post['isDeleted'] == false) {
+            this.activeTable.push({
+              id: post['id'],
+              title: post['title'],
+              HTMLContent: post['HTMLContent'],
+              timestamp: post['timestamp'],
+              status: post['status'],
+              visibility: post['visibility'],
+            });
+          }
         });
       }
     });

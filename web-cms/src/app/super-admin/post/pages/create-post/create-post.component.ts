@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { HtmlEditorService, ImageService, LinkService, RichTextEditorModule, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
+import { DateTime } from '@syncfusion/ej2/charts';
 
 @Component({
   selector: 'app-create-post',
@@ -62,7 +63,8 @@ export class CreatePostComponent implements OnInit {
         HTMLContent: post.HTMLContent,
         visibility: post.visibility,
         status: (this.isPublished? 'published' : 'draft'),
-        timestamp: [new Date().toDateString()],
+        timestamp: [new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()],
+        isDeleted: false,
       };
       posts.push(newPost);
       await setDoc(doc(firestore, 'workspaces', workspaceId), { posts: posts }, { merge: true });
