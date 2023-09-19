@@ -19,8 +19,8 @@ export class SuperAdminMenu {
           label: 'Post',
           route: 'super-admin/post',
           children: [
-            { label: 'View Posts', route: '' },
-            { label: 'Create Post', route: '' },
+            { label: 'View Posts', route: '/super-admin/post/app-view-post' },
+            { label: 'Create Post', route: '/super-admin/post/app-create-post' },
           ],
         },
         {
@@ -28,8 +28,8 @@ export class SuperAdminMenu {
           label: 'Media Library',
           route: 'super-admin/media',
           children: [
-            { label: 'View Media', route: '' },
-            { label: 'Upload Media', route: '' },
+            { label: 'View Media', route: '/super-admin/media/app-view-media' },
+            { label: 'Upload Media', route: '/super-admin/media/app-upload-media' },
           ],
         },
         {

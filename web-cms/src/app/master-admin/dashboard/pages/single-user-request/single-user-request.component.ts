@@ -90,6 +90,7 @@ export class SingleUserRequestComponent implements OnInit {
         role: 'super',
         activated: true,
       }],
+      posts: [{}],
     }).then((docRef) => {
       workspaceId = docRef.id;
       console.log('New workspace added with ID: ', workspaceId);

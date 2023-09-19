@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ViewAccountComponent } from './pages/view-account/view-account.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { AccountTableComponent } from './components/account-table/account-table.component';

@@ -1,0 +1,79 @@
+<div class="container py-6 px-24">
+  <div class="mb-4 flex justify-between">
+    <div class="inline-block">
+      <h3 class="font-semibold text-gray-900">Media Library</h3>
+      <div class="space-x-1 text-xs font-medium text-gray-400">
+        <a class="hover:text-primary-500">Media Library</a>
+        <span> - Upload Media</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="md:col-span-2 xl:col-span-3">
+
+    <div class="flex-col rounded-lg bg-white px-8 py-8 sm:flex-row">
+      <div class="mb-4 flex items-center justify-between">
+        <div class="flex-col items-center">
+          <h3 class="text-md font-bold text-gray-900 ">Upload Your Attachments</h3>
+          <p class="text-gray-500">Drag and drop your files here</p>
+        </div>
+      </div>
+
+      <!-- Apply DropZone Directive -->
+      <div class="dropzone" appDropzone (onFileDropped)="droppedFiles($event)">
+        <div class="text-center">
+          Drop files here.<br>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end py-4">
+				<div class="flex-col items-center mr-4 w-[140px]">
+          <button type="submit" class="justify-center w-full h-10 inline-flex items-center bg-white text-gray-500 border-gray-500 font-semibold border py-2 px-3 focus:outline-none rounded text-xs" (click)="clearFiles()">
+            Cancel
+          </button>
+				</div>
+        <div class="flex-col items-center w-[140px]">
+          <button type="submit" class="justify-center w-full h-10 inline-flex items-center bg-mineral-green-500 text-white font-semibold border-0 py-2 px-3 focus:outline-none hover:bg-mineral-green-600 rounded text-xs" (click)="uploadFiles()">
+            Upload Files
+          </button>
+				</div>
+			</div>
+
+      <div class="file-table">
+        <div class="mb-4 flex items-center justify-between">
+          <div class="flex-col items-center">
+            <h3 class="text-md font-bold text-gray-900 ">List of Files</h3>
+          </div>
+        </div>
+
+        <table class="table-auto w-1/2">
+          <!--Table head-->
+          <thead class="text-xs uppercase text-gray-400">
+            <tr>
+              <th class="py-3 text-left">#</th>
+              <th class="py-3 text-right">File Name</th>
+              <th class="py-3 text-right">Size</th>
+              <th class="py-3 text-right">Type</th>
+            </tr>
+          </thead>
+          <!--end Table head-->
+          <!--Table body-->
+          <tbody>
+            <tr
+              *ngFor="let file of allFiles; let i = index"
+              class="border-b border-dashed border-gray-200 hover:bg-gray-100">
+              <th class="py-3 text-left" scope="row">{{i+1}}</th>
+              <td class="py-3 text-right">{{file.name}}</td>
+              <td class="py-3 text-right">{{file.size}} Bytes</td>
+              <td class="py-3 text-right">{{file.type}}</td>
+            </tr>
+            <tr class="text-center" *ngIf="allFiles.length === 0">
+              <td colspan="4">No files are uploaded</td>
+            </tr>
+          </tbody>
+          <!--end::Table body-->
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
