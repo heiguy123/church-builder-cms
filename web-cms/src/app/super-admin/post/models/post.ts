@@ -2,6 +2,7 @@ export interface Post {
     id: string;
     title: string;
     HTMLContent: string;
-    timestamp: string;
+    timestamp: [];
     status: string;
+    visibility: string;
 }

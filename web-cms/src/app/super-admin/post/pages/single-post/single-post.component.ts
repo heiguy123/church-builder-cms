@@ -41,6 +41,7 @@ export class SinglePostComponent implements OnInit {
             HTMLContent: post.HTMLContent,
             timestamp: post.timestamp,
             status: post.status,
+            visibility: post.visibility
           }
         ];
         return;

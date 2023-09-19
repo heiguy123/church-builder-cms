@@ -62,8 +62,7 @@ export class CreatePostComponent implements OnInit {
         HTMLContent: post.HTMLContent,
         visibility: post.visibility,
         status: (this.isPublished? 'published' : 'draft'),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        timestamp: [new Date().toDateString()],
       };
       posts.push(newPost);
       await setDoc(doc(firestore, 'workspaces', workspaceId), { posts: posts }, { merge: true });
