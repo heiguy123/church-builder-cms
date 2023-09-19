@@ -57,6 +57,7 @@ export class CreatePostComponent implements OnInit {
     if (docSnap.exists()) {
       const posts = docSnap.data()['posts'];
       const newPost = {
+        id: posts.length + 1,
         title: post.title,
         HTMLContent: post.HTMLContent,
         visibility: post.visibility,
@@ -66,7 +67,7 @@ export class CreatePostComponent implements OnInit {
       };
       posts.push(newPost);
       await setDoc(doc(firestore, 'workspaces', workspaceId), { posts: posts }, { merge: true });
-      console.log('Post created in firestore. Id: ' + newPost.title);
+      console.log('Post created in firestore. Id: ' + newPost.id);
 
       this.router.navigate(['/super-admin/post/app-view-post']);
     }
