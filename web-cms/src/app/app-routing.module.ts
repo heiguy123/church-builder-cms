@@ -3,7 +3,6 @@ import { AdminAuthGuard } from './auth/admin-auth.guard';
 import { RouterModule, Routes } from '@angular/router';
 import { MasterAdminAuthGuard } from './auth/master-admin-auth.guard';
 import { SuperAdminAuthGuard } from './auth/super-admin-auth.guard';
-import { TechAdminAuthGuard } from './auth/tech-admin-auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -24,15 +23,13 @@ const routes: Routes = [
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard] },
   { path: 'master-admin', loadChildren: () => import('./master-admin/master-admin.module').then(m => m.MasterAdminModule), canActivate: [MasterAdminAuthGuard] },
   { path: 'super-admin', loadChildren: () => import('./super-admin/super-admin.module').then(m => m.SuperAdminModule), canActivate: [SuperAdminAuthGuard] },
-  { path: 'tech-admin', loadChildren: () => import('./tech-admin/tech-admin.module').then(m => m.TechAdminModule), canActivate: [TechAdminAuthGuard] },
 ];
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    ForgotComponent
-  ],
+  declarations: [],
   imports: [
+    HomeComponent,
+    ForgotComponent,
     RegisterComponent,
     LoginComponent,
     RouterModule.forRoot(routes)
