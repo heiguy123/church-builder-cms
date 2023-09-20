@@ -6,7 +6,6 @@ import { SuperAdminAuthGuard } from './auth/super-admin-auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ForgotComponent } from './forgot/forgot.component';
 
 
 const routes: Routes = [
@@ -17,7 +16,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'forgot', component: ForgotComponent },
 
   // Private Routes or Routes that require authentication
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard] },
@@ -29,7 +27,6 @@ const routes: Routes = [
   declarations: [],
   imports: [
     HomeComponent,
-    ForgotComponent,
     RegisterComponent,
     LoginComponent,
     RouterModule.forRoot(routes)

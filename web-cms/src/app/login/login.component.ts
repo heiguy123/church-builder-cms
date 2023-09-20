@@ -145,6 +145,6 @@ export class LoginComponent implements OnInit {
   }
 
   goToForgot() : void {
-    this.router.navigate(['/forgot']);
+    this.toastrMsg('success', 'Forgot Password is triggered.');
   }
 }
