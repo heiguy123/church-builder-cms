@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
+  selector: 'app-media',
+  templateUrl: './media.component.html',
   standalone: true,
   imports: [ RouterOutlet ],
 })
-export class PostComponent implements OnInit {
+export class MediaComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
