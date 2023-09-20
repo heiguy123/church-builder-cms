@@ -3,11 +3,35 @@
 		<div class="inline-block">
 			<h3 class="font-semibold text-gray-900">Workspace Dashboard</h3>
 			<div class="space-x-1 text-xs font-medium text-gray-400">
-				<a class="hover:text-primary-500">Dashboards</a>
-				<span> - Workspace Overview</span>
+				<a>Dashboards</a>
+				<span> - Workspace Overview </span>
 			</div>
 		</div>
 	</div>
 
-	<div app-workspace-table class="md:col-span-2 xl:col-span-3"></div>
+	<div class="md:col-span-2 xl:col-span-3">
+		<div class="flex-col rounded-lg bg-white px-8 py-8 sm:flex-row">
+			<div class="mb-4 flex items-center justify-between">
+				<div class="flex-col items-center">
+					<h3 class="text-md font-bold text-gray-900 ">Workspace - {{ table[0].workspace_id }}</h3>
+        </div>
+			</div>
+
+      <hr>
+
+      <!-- Display Organization Info -->
+      <div class="flex items-center justify-between py-4">
+				<div class="flex-col items-center">
+          <h4 class="text-md font-bold text-gray-900 py-4">Organization Information</h4>
+					<p class="text-md py-1">Organization Name: {{ table[0].organization_name }}</p>
+          <p class="text-md py-1">Organization Demonination: {{ table[0].organizatiton_denomination }}</p>
+          <p class="text-md py-1">Member Size: {{ table[0].organization_member_size }}</p>
+          <p class="text-md py-1">Organization Address: {{ table[0].organization_address }}</p>
+          <p class="text-md py-1">Organization City: {{ table[0].organization_city }}</p>
+          <p class="text-md py-1">Organization State: {{ table[0].organization_state }}</p>
+          <p class="text-md py-1">Organization Zip: {{ table[0].organization_zip }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
