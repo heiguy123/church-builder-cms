@@ -24,6 +24,11 @@ const routes: Routes = [
     component: LayoutComponent,
     loadChildren: () => import('../account/account.module').then((m) => m.AccountModule),
   },
+  {
+    path: 'app-builder',
+    component: LayoutComponent,
+    loadChildren: () => import('../app-builder/app-builder.module').then((m) => m.AppBuilderModule),
+  },
 ];
 
 @NgModule({
