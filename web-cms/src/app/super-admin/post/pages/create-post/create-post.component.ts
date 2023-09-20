@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { HtmlEditorService, ImageService, LinkService, RichTextEditorModule, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
 import { DateTime } from '@syncfusion/ej2/charts';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-post',
@@ -21,7 +22,25 @@ export class CreatePostComponent implements OnInit {
   form!: FormGroup;
   isPublished: boolean = false;
   
-  constructor(private cookieService: CookieService, private router: Router) {}
+  constructor(private cookieService: CookieService, private router: Router, private toastr: ToastrService,) {}
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({ 
@@ -42,9 +61,9 @@ export class CreatePostComponent implements OnInit {
   }
 
   async onSubmit() {
-    console.log(this.form.value, + "is published: " + this.isPublished.toString());
 
     if (this.form.invalid) {
+      this.toastrMsg('error', 'Please fill in all required fields.');
       return;
     }
 
@@ -68,9 +87,11 @@ export class CreatePostComponent implements OnInit {
       };
       posts.push(newPost);
       await setDoc(doc(firestore, 'workspaces', workspaceId), { posts: posts }, { merge: true });
-      console.log('Post created in firestore. Id: ' + newPost.id);
-
+      this.toastrMsg('success', 'Post created successfully. Id: ' + newPost.id);
       this.router.navigate(['/super-admin/post/app-view-post']);
+      return;
     }
+    this.toastrMsg('error', 'Failed to create post.');
+    return;
   }
 }

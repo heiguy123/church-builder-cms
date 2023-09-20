@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { addDoc, collection, getFirestore, doc, updateDoc, setDoc } from '@angular/fire/firestore';
 import { getDownloadURL, getMetadata, getStorage, ref, uploadBytesResumable } from '@angular/fire/storage';
 import { createUserWithEmailAndPassword, getAuth } from '@angular/fire/auth';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-multi-step-form',
@@ -36,8 +37,27 @@ export class MultiStepFormComponent implements OnInit {
 
   constructor (
     private router: Router,
+    private toastr: ToastrService,
   ) { 
     this.show = false;
+  }
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -77,7 +97,8 @@ export class MultiStepFormComponent implements OnInit {
     }).catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log(errorCode + ": " + errorMessage);
+      this.toastrMsg('error', errorCode + ' ' + errorMessage);
+      return;
     });
 
     // 2. save user details to cloud firestore at first
@@ -119,7 +140,7 @@ export class MultiStepFormComponent implements OnInit {
 
     // 5. send email to master admin
     this.sendEmailToMasterAdmin();
-
+    this.toastrMsg('success', 'Registration successful. Please wait for the administrator to approve your registration.');
     this.form.reset();
   }
 
@@ -203,7 +224,5 @@ export class MultiStepFormComponent implements OnInit {
         '\nPlease login the dashboard to approve the registration.',
       }
     });
-
-    console.log("Email data stored in firestore. Id: " + newDoc.id);
   }
 }

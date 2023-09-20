@@ -5,6 +5,7 @@ import { collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/fi
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +20,27 @@ export class LoginComponent implements OnInit {
 
   constructor (
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private toastr: ToastrService,
   ) { }
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -30,6 +50,11 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit() : Promise<void> {
+    if (!this.form.valid) {
+      this.toastrMsg('error', 'Please fill in all required fields.');
+      return;
+    }
+
     // 1. Check if email and password are in database
     const auth = getAuth();
     const email = this.form.value.email;
@@ -43,7 +68,7 @@ export class LoginComponent implements OnInit {
       }).catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        window.alert(errorCode + ": " + errorMessage);
+        this.toastrMsg('error', errorMessage);
       });
     }
 
@@ -64,6 +89,7 @@ export class LoginComponent implements OnInit {
         this.cookieService.set('email', email, { expires: 1, sameSite: 'Lax'});
         this.cookieService.set('role', 'master', { expires: 1, sameSite: 'Lax'});
         console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role'));
+        this.toastrMsg('success', 'Signed in successfully.');
         this.router.navigate(['/master-admin']);
       } else {
         // read from user requests (for those who are not yet activated)
@@ -72,7 +98,7 @@ export class LoginComponent implements OnInit {
     
         if (docSnap.exists()) {
           if (!docSnap.data()['activated']) {
-            window.alert("Your account is not activated yet. Please contact your administrator.");
+            this.toastrMsg('error', 'Your account is not activated yet. Please contact your administrator.');
             return;
           }
         }
@@ -91,23 +117,25 @@ export class LoginComponent implements OnInit {
               if (user['role'] == "super") {
                 this.cookieService.set('role', 'super', { expires: 1, sameSite: 'Lax'});
                 console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role') + ', Workspace ID: ' + this.cookieService.get('workspaceID'));
+                this.toastrMsg('success', 'Signed in successfully.');
                 this.router.navigate(['/super-admin']);
-              } else if (user['role'] == "tech") {
-                this.cookieService.set('role', 'tech', { expires: 1, sameSite: 'Lax'});
-                console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role') + ', Workspace ID: ' + this.cookieService.get('workspaceID'));
-                this.router.navigate(['/tech-admin'])
+                return;
               } else if (user['role'] == "admin") {
                 this.cookieService.set('role', 'admin', { expires: 1, sameSite: 'Lax'});
                 console.log('Cookie set. Id: ' + this.cookieService.get('id') + ', Email: ' + this.cookieService.get('email') + ', Role: ' + this.cookieService.get('role') + ', Workspace ID: ' + this.cookieService.get('workspaceID'));
+                this.toastrMsg('success', 'Signed in successfully.');
                 this.router.navigate(['/admin']);
+                return;
               }
             }
           });
-          
         });
-
         this.form.reset();
+        return;
       }
+    } else {
+      this.toastrMsg('error', 'Invalid email or password.');
+      return;
     }
   }
 

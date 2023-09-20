@@ -6,6 +6,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgClass, NgIf } from '@angular/common';
 import { getAuth, signOut } from '@angular/fire/auth';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,7 +24,25 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private router: Router, public menuService: MenuService, private cookieService: CookieService) {}
+  constructor(private router: Router, public menuService: MenuService, private cookieService: CookieService, private toastr: ToastrService,) {}
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
 
   ngOnInit(): void {}
 
@@ -36,12 +55,12 @@ export class SidebarComponent implements OnInit {
     signOut(auth).then(() => {
       if (this.cookieService.getAll()) {
         this.cookieService.deleteAll();
-        console.log('Cookie deleted.');
+        this.toastrMsg('success', 'Cookie deleted.');
       }
-      console.log('Sign-out successful.');
+      this.toastrMsg('success', 'Signed out successfully.');
       this.router.navigate(['/login']);
     }).catch((error) => {
-      console.log('An error happened.');
+      this.toastrMsg('error', 'Failed to sign out.');
     });
   }
 }

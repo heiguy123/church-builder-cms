@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Post } from '../../models/post';
 import { doc, getDoc, getFirestore } from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: '[app-post-table]',
@@ -17,7 +18,25 @@ import { doc, getDoc, getFirestore } from '@angular/fire/firestore';
 export class PostTableComponent implements OnInit {
   public activeTable : Post[] = [];
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService, private toastr: ToastrService,) {}
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.fetchPosts();
@@ -40,8 +59,12 @@ export class PostTableComponent implements OnInit {
               status: post['status'],
               visibility: post['visibility'],
             });
+            return;
           }
         });
+      } else {
+        this.toastrMsg('error', 'Failed to fetch posts.');
+        return;
       }
     });
   }

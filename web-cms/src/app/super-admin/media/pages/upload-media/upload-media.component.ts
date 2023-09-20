@@ -4,6 +4,7 @@ import { DropzoneDirective } from '../../components/dropzone.directive';
 import { CommonModule } from '@angular/common';
 import { getDownloadURL, getMetadata, getStorage, ref, uploadBytesResumable } from '@angular/fire/storage';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-upload-media',
@@ -16,9 +17,27 @@ import { CookieService } from 'ngx-cookie-service';
 export class UploadMediaComponent implements OnInit {
   allFiles: File[] = [];
 
-  constructor(private cookieService : CookieService) { }
+  constructor(private cookieService : CookieService, private toastr: ToastrService,) { }
 
   ngOnInit() {
+  }
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
   }
 
   droppedFiles(allFiles: File[]) {
@@ -35,6 +54,7 @@ export class UploadMediaComponent implements OnInit {
 
   uploadFiles() {
     if (this.allFiles.length == 0) {
+      this.toastrMsg('error', 'Please select a file to upload.');
       return;
     }
 
@@ -57,11 +77,11 @@ export class UploadMediaComponent implements OnInit {
         (snapshot) => {
           // progress function
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          this.toastrMsg('success', 'Upload is ' + progress + '% done');
         },
         (error) => {
           // error function
-          console.log(error);
+          this.toastrMsg('error', 'Error uploading file. Error: ' + error.code + ' Message: ' + error.message);
         },
         async () => {
           // complete function
@@ -72,7 +92,6 @@ export class UploadMediaComponent implements OnInit {
           await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             docMetaData.url = url;
           });
-          console.log(docMetaData);
           // clear files
           this.allFiles = [];
         }
