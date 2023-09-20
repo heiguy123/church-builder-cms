@@ -17,6 +17,8 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MultiStepFormComponent } from './register/multi-step-form/multi-step-form.component';
 import { StepperComponent } from './register/stepper/stepper.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -40,7 +42,9 @@ import { StepperComponent } from './register/stepper/stepper.component';
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
     provideRemoteConfig(() => getRemoteConfig()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
   ],
   providers: [
     ScreenTrackingService,UserTrackingService
