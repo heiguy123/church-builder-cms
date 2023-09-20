@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { AppBuilderRoutingModule } from './app-builder-routing.module';
 import { AppLayoutComponent } from './pages/app-layout/app-layout.component';
 import { DeployAppComponent } from './pages/deploy-app/deploy-app.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Add this import
 
 
 
@@ -12,7 +14,8 @@ import { DeployAppComponent } from './pages/deploy-app/deploy-app.component';
   imports: [
     AppBuilderRoutingModule,
     AppLayoutComponent,
-    DeployAppComponent
+    DeployAppComponent,
+    CommonModule, FormsModule
   ]
 })
 export class AppBuilderModule { }
