@@ -6,7 +6,6 @@ import { SinglePostComponent } from './pages/single-post/single-post.component';
 import { PostTableComponent } from './components/post-table/post-table.component';
 import { PostTableItemComponent } from './components/post-table-item/post-table-item.component';
 import { PostRoutingModule } from './post-routing.module';
-// import * as License from '@syncfusion/ej2/base';
 
 
 
@@ -24,6 +23,5 @@ import { PostRoutingModule } from './post-routing.module';
 })
 export class PostModule {
   constructor() { 
-    // License.registerLicense('Ngo9BigBOggjHTQxAR8/V1NHaF5cXmVCf1NpRGtGfV5yd0VHYFZVTHxfRE0DNHVRdkdgWXZfeHZXQmhcV01xVkQ=');
   }
  }
