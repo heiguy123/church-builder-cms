@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PostComponent } from './post/post.component';
 
 const SuperAdminModuleRoutes: Routes = [
   {
@@ -15,7 +14,6 @@ const SuperAdminModuleRoutes: Routes = [
   ],
   exports: [RouterModule],
   declarations: [
-    
   ]
 })
 export class SuperAdminModule { }

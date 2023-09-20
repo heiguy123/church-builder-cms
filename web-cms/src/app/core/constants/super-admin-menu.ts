@@ -46,7 +46,7 @@ export class SuperAdminMenu {
           label: 'Auth',
           route: '/super-admin/auth',
           children: [
-            { label: 'Profile', route: '/super-admin/auth/profile' },
+            { label: 'Profile', route: '/super-admin/auth/app-profile' },
             { label: 'New Password', route: '/super-admin/auth/app-new-password' },
           ],
         },

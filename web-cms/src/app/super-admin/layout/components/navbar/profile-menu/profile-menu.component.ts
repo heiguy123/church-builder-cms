@@ -33,6 +33,10 @@ export class ProfileMenuComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  public navigateToProfile(): void {
+    this.router.navigate(['/super-admin/auth/app-profile']);
+  }
+
   public signOut() {
     const auth = getAuth();
     signOut(auth).then(() => {
