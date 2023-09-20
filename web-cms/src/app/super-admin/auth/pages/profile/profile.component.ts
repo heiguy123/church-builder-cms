@@ -32,8 +32,8 @@ export class ProfileComponent implements OnInit {
       user: new FormGroup({
         userId: new FormControl(null, [Validators.required,]),
         email: new FormControl({value: null, disabled: true}, [Validators.required,]),
-        firstName: new FormControl(null, [Validators.required,]),
-        lastName: new FormControl(null, [Validators.required,]),
+        firstName: new FormControl(null),
+        lastName: new FormControl(null),
         role: new FormControl({value: null, disabled: true}, [Validators.required,]),
       }),
     });
@@ -86,7 +86,6 @@ export class ProfileComponent implements OnInit {
           lastName: this.table[0].lastName,
           role: this.table[0].role,
         });
-        this.toastrMsg('success', 'User Fetched.');
         return;
       }
       this.toastrMsg('error', 'User Not Found.');
@@ -96,6 +95,7 @@ export class ProfileComponent implements OnInit {
 
   async onSubmit() {
     if (this.form.invalid) {
+      this.toastrMsg('error', 'Please fill in all required fields.');
       return;
     }
 
