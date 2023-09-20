@@ -46,8 +46,8 @@ export class SuperAdminMenu {
           label: 'App Builder',
           route: 'super-admin/app-builder',
           children: [
-            { label: 'App Layout', route: '' },
-            { label: 'Deploy App', route: '' },
+            { label: 'App Layout', route: '/super-admin/app-builder/app-app-layout' },
+            { label: 'Deploy App', route: '/super-admin/app-builder/app-deploy-app' },
           ],
         },
         {

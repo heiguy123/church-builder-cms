@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "web-cms",
+      "target": "web",
       "source": ".",
       "frameworksBackend": {}
     }

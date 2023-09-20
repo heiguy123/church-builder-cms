@@ -5,8 +5,8 @@
   "targets": {
     "ccms-app-builder": {
       "hosting": {
-        "web-cms": [
-          "ccms-app-builder"
+        "web": [
+          "web-cms-ccms"
         ]
       }
     }
