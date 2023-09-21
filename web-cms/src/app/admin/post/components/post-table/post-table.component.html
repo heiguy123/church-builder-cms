@@ -1,0 +1,39 @@
+
+<div class="flex-col rounded-lg bg-white px-8 py-8 sm:flex-row">
+    <div class="mb-4 flex items-center justify-between">
+      <div class="flex-col items-center">
+        <h3 class="text-md font-bold text-gray-900 ">Posts Table</h3>
+      </div>
+      <button
+        [routerLink]="['/super-admin/post/app-create-post']"
+        class="flex-none rounded-md bg-mineral-green-500 px-4 py-2.5 text-xs font-semibold text-white focus:outline-none hover:bg-mineral-green-600">
+        Create New Post
+      </button>
+    </div>
+  
+    <div class="relative overflow-x-auto">
+      <table class="w-full table-auto">
+        <!--Table head-->
+        <thead class="text-xs uppercase text-gray-400">
+          <tr>
+            <th class="py-3 text-left">ID</th>
+            <th class="py-3 text-left">Title</th>
+            <th class="py-3 text-right">Updated At</th>
+            <th class="py-3 text-right">Status</th>
+            <th class="py-3 text-right">Visibility</th>
+            <th class="py-3 text-right">View</th>
+          </tr>
+        </thead>
+        <!--end Table head-->
+        <!--Table body-->
+        <tbody>
+          <tr
+            *ngFor="let table of activeTable"
+            [table]="table"
+            app-post-table-item
+            class="border-b border-dashed border-gray-200 hover:bg-gray-100"></tr>
+        </tbody>
+        <!--end::Table body-->
+      </table>
+    </div>
+  </div>

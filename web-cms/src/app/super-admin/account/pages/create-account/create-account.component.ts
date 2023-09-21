@@ -6,6 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { collection } from '@firebase/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-account',
@@ -20,7 +21,7 @@ import { Router } from '@angular/router';
 export class CreateAccountComponent implements OnInit {
   form!: FormGroup;
   
-  constructor(private cookieService: CookieService, private router : Router) {}
+  constructor(private cookieService: CookieService, private router : Router, private toastr: ToastrService,) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({ 
@@ -34,8 +35,27 @@ export class CreateAccountComponent implements OnInit {
     });
   }
 
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
+
   async onSubmit() {
     if (this.form.invalid) {
+      this.toastrMsg('error', 'Please fill in all required fields.');
       return;
     }
 
@@ -47,11 +67,12 @@ export class CreateAccountComponent implements OnInit {
     await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
       // Signed in
       user = userCredential.user;
-      console.log('User created in firebase auth. Id: ' + user.uid);
+      this.toastrMsg('success', 'User created successfully. Id: ' + user.uid);
     }).catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log('Error creating user in firebase auth. Code: ' + errorCode + ' Message: ' + errorMessage);
+      this.toastrMsg('error', 'Error creating user in firebase auth. Code: ' + errorCode + ' Message: ' + errorMessage);
+      return;
     });
 
     // 2. Create a new user document in firestore by adding a new array to document 'users'
@@ -75,14 +96,17 @@ export class CreateAccountComponent implements OnInit {
         };
         users.push(newUser);
         await setDoc(doc(firestore, 'workspaces', workspaceId), { users: users }, { merge: true });
-        console.log('User created in firestore. Id: ' + userID);
+        this.toastrMsg('success', 'User created in firestore. Id: ' + userID);
 
         // 3. Send a verification email to the user
         this.sendEmailToNewUser();
-
-        this.router.navigate(['/super-admin/account/app-view-account']);
+        this.toastrMsg('success', 'Verification email sent to ' + this.form.value.user.email + '.');
+        this.router.navigate(['super-admin/account/app-view-account']);
+        return;
       }
+      this.toastrMsg('error', 'User already exists.');
     }
+    this.toastrMsg('error', 'Workspace Not Found.');
   }
 
   async sendEmailToNewUser() {
@@ -99,7 +123,5 @@ export class CreateAccountComponent implements OnInit {
         html: 'Your application has been approved. Please login to the dashboard to start using the app.',
       }
     });
-    
-    this.router.navigate(['super-admin/account/app-view-account']);
   }
 }

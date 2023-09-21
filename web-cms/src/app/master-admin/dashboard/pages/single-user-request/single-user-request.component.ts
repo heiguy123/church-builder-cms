@@ -4,6 +4,7 @@ import { UserRequest } from '../../models/user-request';
 import { addDoc, collection, doc, getDoc, getFirestore, updateDoc } from '@angular/fire/firestore';
 import { getMetadata, getStorage, ref, uploadString } from '@angular/fire/storage';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-single-user-request',
@@ -15,7 +16,25 @@ export class SingleUserRequestComponent implements OnInit {
   table: UserRequest[] = [];
   private userCredentials = { email: '', password: '' };
 
-  constructor(private route: ActivatedRoute, private router : Router) { }
+  constructor(private route: ActivatedRoute, private router : Router, private toastr: ToastrService,) { }
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id'); // Use the correct parameter name
@@ -46,7 +65,10 @@ export class SingleUserRequestComponent implements OnInit {
           organization_zip: docSnap.data()['orgZip']
         },
       ];
+      return;
     }
+    this.toastrMsg('error', 'User request not found');
+    return;
   }
 
   async approveRequest() {
@@ -63,8 +85,10 @@ export class SingleUserRequestComponent implements OnInit {
         email: docSnap.data()['email'],
         password: docSnap.data()['password'],
       };
+    } else {
+      this.toastrMsg('error', 'User request not found');
+      return;
     }
-    console.log('User request approved');
 
     // TODO: Create workspace for the organization
     // and duplicate the user for the organization -> users collection
@@ -111,9 +135,11 @@ export class SingleUserRequestComponent implements OnInit {
         console.log(`Folder for workspace ${workspaceId} created.`);
       }).catch((error) => {
         console.error(`Error creating folder for workspace ${workspaceId}:`, error);
+        return;
       });
     }).catch((error) => {
       console.error('Error adding new workspace: ', error);
+      return;
     });
 
     // TODO: Send email to user
@@ -129,6 +155,7 @@ export class SingleUserRequestComponent implements OnInit {
       }
     });
     
+    this.toastrMsg('success', 'User request approved');
     this.router.navigate(['master-admin/dashboard/app-user-request']);
   }
 
@@ -147,7 +174,7 @@ export class SingleUserRequestComponent implements OnInit {
         html: 'Your application has been denied.',
       }
     });
-
+    this.toastrMsg('success', 'User request rejected');
     this.router.navigate(['master-admin/dashboard/app-user-request']);
   }
 }

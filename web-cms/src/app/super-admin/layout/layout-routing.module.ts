@@ -25,9 +25,9 @@ const routes: Routes = [
     loadChildren: () => import('../account/account.module').then((m) => m.AccountModule),
   },
   {
-    path: 'app-builder',
+    path: 'auth',
     component: LayoutComponent,
-    loadChildren: () => import('../app-builder/app-builder.module').then((m) => m.AppBuilderModule),
+    loadChildren: () => import('../auth/auth.module').then((m) => m.AuthModule),
   },
 ];
 

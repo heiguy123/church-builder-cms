@@ -5,6 +5,7 @@ import { Account } from '../../models/account';
 import { collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: '[app-account-table]',
@@ -16,10 +17,28 @@ import { RouterLink } from '@angular/router';
 export class AccountTableComponent implements OnInit {
   public activeTable : Account[] = [];
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService, private toastr: ToastrService,) {}
 
   ngOnInit(): void {
     this.fetchAccounts();
+  }
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
   }
 
   async fetchAccounts() {
@@ -39,7 +58,9 @@ export class AccountTableComponent implements OnInit {
             activated: user['activated']
           });
         });
+        return;
       }
+      this.toastrMsg('error', 'Workspace Not Found.');
     });
   };
 }

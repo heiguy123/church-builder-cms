@@ -3,6 +3,7 @@ import { Account } from '../../models/account';
 import { ActivatedRoute, Router } from '@angular/router';
 import { doc, getDoc, getFirestore, updateDoc } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-single-account',
@@ -17,12 +18,31 @@ export class SingleAccountComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private cookieService: CookieService,
-    private router : Router
+    private router : Router,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
     this.fetchUserAccount(userId!);
+  }
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
   }
 
   async fetchUserAccount(userId: string) {
@@ -48,7 +68,9 @@ export class SingleAccountComponent implements OnInit {
         ];
         return;
       }
+      this.toastrMsg('error', 'User Not Found.');
     }
+    this.toastrMsg('error', 'Workspace Not Found.');
   }
 
   async deactivateAccount() {
@@ -66,9 +88,12 @@ export class SingleAccountComponent implements OnInit {
         await updateDoc(docRef, {
           users: users,
         });
-        console.log('User deactivated.');
+        this.toastrMsg('success', 'Account Deactivated.');
         this.router.navigate(['/super-admin/account/app-view-account']);
+        return;
       }
+      this.toastrMsg('error', 'User Not Found.');
     }
+    this.toastrMsg('error', 'Workspace Not Found.');
   }
 }

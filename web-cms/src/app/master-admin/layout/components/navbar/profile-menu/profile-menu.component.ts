@@ -4,6 +4,7 @@ import { NgClass } from '@angular/common';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
 import { Auth, getAuth, onAuthStateChanged, signOut } from '@angular/fire/auth';
 import { doc, getDoc, getFirestore } from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-profile-menu',
@@ -21,7 +22,25 @@ export class ProfileMenuComponent implements OnInit {
   profileName = "";
   profileEmail = "";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private toastr: ToastrService,) {}
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.getUserInfo();
@@ -34,10 +53,10 @@ export class ProfileMenuComponent implements OnInit {
   public signOut() {
     const auth = getAuth();
     signOut(auth).then(() => {
-      console.log('Sign-out successful.');
+      this.toastrMsg('success', 'Signed out successfully.');
       this.router.navigate(['/login']);
     }).catch((error) => {
-      console.log('An error happened.');
+      this.toastrMsg('error', 'Failed to sign out.');
     });
   }
 

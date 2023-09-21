@@ -1,0 +1,31 @@
+<td class="py-2 pr-2">
+    <div class="flex items-center">
+        <div class="flex flex-col justify-items-start">
+            <img *ngIf="table.fileType === 'image/jpeg' || table.fileType === 'image/png' || table.fileType === 'image/jpg'"
+            src="{{ table.url }}" alt="{{ table.name }}" class="bg-contain bg-gray-200 img-box">
+        </div>
+    </div>
+</td>
+<td class="py-2 pr-2">
+    <a class="mb-1 text-sm font-semibold text-gray-900">{{ table.name }}</a>
+</td>
+<td class="py-2 pl-2 text-right">
+    <span class="text-sm font-semibold text-gray-400">{{ table.fileType }}</span>
+</td>
+<td class="py-2 pl-2 text-right">
+    <span class="text-sm font-semibold text-gray-400">{{ table.fileSize }}</span>
+</td>
+<td class="py-2 pl-2 text-right">
+    <span class="text-sm font-semibold text-gray-400">{{ table.timeCreated }}</span>
+</td>
+<td class="py-2 pl-2 text-right">
+    <span class="text-sm font-semibold text-mineral-green-500 hover:text-black underline"><a href="{{ table.url }}">Downloadable Link</a></span>
+</td>
+<td class="py-2 pl-6 text-right">
+    <div class="flex justify-end">
+        <a
+            class="justify-center w-full h-10 inline-flex items-center bg-mineral-green-500 text-white font-semibold border-0 py-2 px-3 focus:outline-none hover:bg-mineral-green-600 hover:cursor-pointer rounded text-xs" (click)="copyUrlToClipboard()">
+            Copy URL to Clipboard
+        </a>
+    </div>
+</td>

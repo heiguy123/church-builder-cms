@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ccms-app-builder"
+  },
+  "targets": {
+    "ccms-app-builder": {
+      "hosting": {
+        "mobile": [
+          "ccms-mobile-app"
+        ]
+      }
+    }
+  }
+}

@@ -12,3 +12,6 @@
 		@apply pointer-events-auto block scale-100 animate-fade-in-up opacity-100 duration-200;
 	}
 }
+
+// regular style toast
+@import 'ngx-toastr/toastr';

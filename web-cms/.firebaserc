@@ -6,7 +6,7 @@
     "ccms-app-builder": {
       "hosting": {
         "web": [
-          "web-cms-ccms"
+          "ccms-app-builder"
         ]
       }
     }

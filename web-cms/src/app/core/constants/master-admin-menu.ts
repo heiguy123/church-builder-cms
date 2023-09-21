@@ -9,7 +9,7 @@ export class MasterAdminMenu {
         {
           icon: '../../../assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Dashboard',
-          route: 'master-admin/dashboard',
+          route: '/master-admin/dashboard',
           children: [
             { label: 'Workspace', route: 'app-workspace' },
             { label: 'User Request', route: 'app-user-request' },
@@ -18,11 +18,10 @@ export class MasterAdminMenu {
         {
           icon: '../../../assets/icons/heroicons/outline/lock-closed.svg',
           label: 'Auth',
-          route: '/auth',
+          route: '/master-admin/auth',
           children: [
-            { label: 'Profile', route: '/auth/profile' },
-            { label: 'Forgot Password', route: '/auth/forgot-password' },
-            { label: 'New Password', route: '/auth/new-password' },
+            { label: 'Profile', route: '/master-admin/auth/app-profile' },
+            { label: 'New Password', route: '/master-admin/auth/app-new-password' },
           ],
         },
       ],

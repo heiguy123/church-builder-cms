@@ -1,0 +1,42 @@
+
+<div class="flex-col rounded-lg bg-white px-8 py-8 sm:flex-row">
+    <div class="mb-4 flex items-center justify-between">
+      <div class="flex-col items-center">
+        <h3 class="text-md font-bold text-gray-900 ">Media Library</h3>
+      </div>
+      <button
+        [routerLink]="['/admin/media/app-upload-media']"
+        class="flex-none rounded-md bg-mineral-green-500 px-4 py-2.5 text-xs font-semibold text-white focus:outline-none hover:bg-mineral-green-600">
+        Upload Media
+      </button>
+    </div>
+
+    <hr>
+  
+    <div class="relative overflow-x-auto">
+      <table class="w-full table-auto">
+        <!--Table head-->
+        <thead class="text-xs uppercase text-gray-400">
+          <tr>
+            <th class="py-3 text-left">File</th>
+            <th class="py-3 text-left"></th>
+            <th class="py-3 text-right">File Type</th>
+            <th class="py-3 text-right">File Size</th>
+            <th class="py-3 text-right">Time Created</th>
+            <th class="py-3 text-right">File URL</th>
+            <th class="py-3 text-right"></th>
+          </tr>
+        </thead>
+        <!--end Table head-->
+        <!--Table body-->
+        <tbody>
+          <tr
+            *ngFor="let table of activeTable"
+            [table]="table"
+            app-media-table-item
+            class="border-b border-dashed border-gray-200 hover:bg-gray-100"></tr>
+        </tbody>
+        <!--end::Table body-->
+      </table>
+    </div>
+  </div>

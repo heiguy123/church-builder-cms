@@ -6,6 +6,7 @@ import { doc, getDoc, getFirestore, setDoc, updateDoc } from '@angular/fire/fire
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HtmlEditorService, ImageService, LinkService, RichTextEditorModule, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-single-post',
@@ -25,8 +26,27 @@ export class SinglePostComponent implements OnInit {
   constructor(
     private cookieService: CookieService,
     private route: ActivatedRoute,
-    private router : Router  
+    private router : Router,
+    private toastr: ToastrService,
   ) { }
+
+  toastrMsg(type: string, msg: string) {
+    if (type === 'success') {
+      this.toastr.success(msg, 'Success', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    } else if (type === 'error') {
+      this.toastr.error(msg, 'Error', {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right',
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({ 
@@ -77,15 +97,18 @@ export class SinglePostComponent implements OnInit {
           timestamp: this.table[0].timestamp,
           id: this.table[0].id,
         });
-        console.log("Post fetched from firestore: " + this.table[0].id);
         return;
       }
+      this.toastrMsg('error', 'Failed to fetch post.');
+      return;
     }
-    console.log("Post not found");
+    this.toastrMsg('error', 'Failed to fetch post.');
+    return;
   }
 
   async onSubmit() {
     if (this.form.invalid) {
+      this.toastrMsg('error', 'Please fill in all required fields.');
       return;
     }
 
@@ -110,12 +133,17 @@ export class SinglePostComponent implements OnInit {
           posts: posts,
         });
         if (this.isDeleted) {
-          console.log('Post deleted.');
+          this.toastrMsg('success', 'Post deleted.');
         } else {
-          console.log('Post updated.');
+          this.toastrMsg('success', 'Post updated.');
         }
         this.router.navigate(['/super-admin/post/app-view-post']);
+        return;
       }
+      this.toastrMsg('error', 'Failed to update post.');
+      return;
     }
+    this.toastrMsg('error', 'Failed to update post.');
+    return;
   }
 }

@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss']
+  standalone: true,
+  imports: [ RouterOutlet ],
 })
-export class PostComponent {
+export class PostComponent implements OnInit {
+  constructor() {}
 
+  ngOnInit(): void {}
 }
