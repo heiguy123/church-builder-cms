@@ -2,7 +2,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { NgModule } from '@angular/core';
 import { Tab2Page } from '../tab2/tab2.page';
-import { Tab3Page } from '../tab3/tab3.page';
 
 const routes: Routes = [
   {
@@ -14,12 +13,8 @@ const routes: Routes = [
         loadChildren: () => import('../tab1/tab1.module').then((m) => m.Tab1Module),
       },
       {
-        path: 'posts',
+        path: 'Organizations',
         component: Tab2Page,
-      },
-      {
-        path: 'settings',
-        component: Tab3Page,
       },
       {
         path: '',
