@@ -1,0 +1,12 @@
+<div class="ion-padding">
+  <ng-container>
+    <h1 size="large">
+      {{ table[0].title }}
+    </h1>
+    <ion-label>Published at {{ table[0].timestamp[table[0].timestamp.length-1] }} </ion-label>
+    <br/>
+    <ion-label>Published by {{ table[0].author }} </ion-label>
+    <div [innerHTML]="table[0].HTMLContent">
+    </div>
+  </ng-container>
+</div>

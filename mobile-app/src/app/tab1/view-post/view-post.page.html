@@ -1,0 +1,28 @@
+<ion-list>
+  <ion-list-header>
+    <h2>Latest Posts</h2>
+  </ion-list-header>
+  <ion-item *ngFor="let item of table">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>{{ item.timestamp[item.timestamp.length-1] }}</ion-card-subtitle>
+        <ion-card-title>{{ item.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-footer>
+        <ion-row>
+          <ion-col class="author">
+            <span>Author: {{ item.author }}</span>
+          </ion-col>
+          <ion-col>
+            <ion-button fill="clear" class="btn-view-post"
+            routerLink="details/{{ item.id }}/{{ item.workspaceId }}"
+            >
+              <ion-icon name="paper-plane-outline"></ion-icon>
+              <div> View Post</div>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-card>
+  </ion-item>
+</ion-list>
