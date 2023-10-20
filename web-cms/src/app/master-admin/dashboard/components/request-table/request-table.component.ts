@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserRequest } from '../../models/user-request';
 import { RequestTableItemComponent } from '../request-table-item/request-table-item.component';
 import { CommonModule } from '@angular/common';
-import { collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/firestore';
+import { QuerySnapshot, collection, doc, getDoc, getDocs, getFirestore } from '@angular/fire/firestore';
 
 
 
@@ -26,10 +26,13 @@ export class RequestTableComponent implements OnInit {
   async fetchUserRequests() {
     const firestore = getFirestore();
     const querySnapshot = await getDocs(collection(firestore, "user-requests"));
-    querySnapshot.forEach((doc) => {
-      this.activeTable.push({
+
+    // Extract the data and sort it by docCreatedDate in descending order
+    const sortedData = querySnapshot.docs.map(doc => {
+      const creationDate = new Date(doc.data()['docCreatedDate']); // convert to number
+      return {
         request_id: doc.id,
-        creation_date: doc.data()['docCreatedDate'],
+        creation_date: creationDate.toISOString(), // Convert back to ISO string
         organization_name: doc.data()['orgName'],
         applicant_email: doc.data()['email'],
         document_link: doc.data()['docUrl'],
@@ -42,7 +45,10 @@ export class RequestTableComponent implements OnInit {
         organization_member_size: doc.data()['orgMemberSize'],
         organization_state: doc.data()['orgState'],
         organization_zip: doc.data()['orgZip']
-      });
-    });
+      };
+    }).sort((a, b) => b.creation_date.localeCompare(a.creation_date)); // Sort in descending order
+
+    // Push sorted data to activeTable
+    this.activeTable.push(...sortedData);
   }
 }
