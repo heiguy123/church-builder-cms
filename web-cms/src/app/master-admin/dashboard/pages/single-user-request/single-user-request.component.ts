@@ -5,12 +5,14 @@ import { addDoc, collection, doc, getDoc, getFirestore, updateDoc } from '@angul
 import { getMetadata, getStorage, ref, uploadString } from '@angular/fire/storage';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-single-user-request',
   templateUrl: './single-user-request.component.html',
   standalone: true,
-  styleUrls: ['./single-user-request.component.scss']
+  styleUrls: ['./single-user-request.component.scss'],
+  imports: [CommonModule]
 })
 export class SingleUserRequestComponent implements OnInit {
   table: UserRequest[] = [];
