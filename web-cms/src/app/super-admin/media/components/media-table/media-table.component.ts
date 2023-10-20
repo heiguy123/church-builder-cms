@@ -29,20 +29,24 @@ export class MediaTableComponent implements OnInit {
     const storage = getStorage();
     const listRef = ref(storage, `workspaces/${workspaceID}`);
     const listResult = await listAll(listRef);
-    listResult.items.forEach((itemRef) => {
-      getMetadata(itemRef).then((metadata) => {
-        // get Download URL from firebase storage based on the this media's full path
-        // and add it to the activeTable array
-        getDownloadURL(itemRef).then((url) => {
-          this.activeTable.push({
-            name: metadata.name,
-            url: url,
-            timeCreated: metadata.timeCreated,
-            fileType: metadata.contentType,
-            fileSize: metadata.size
-          });
-        });
-      });
-    });
+
+    // Fetch media items and convert timeCreated to string
+    const mediaItems: any[] = await Promise.all(listResult.items.map(async (itemRef) => {
+      const metadata = await getMetadata(itemRef);
+      const url = await getDownloadURL(itemRef);
+      return {
+        name: metadata.name,
+        url: url,
+        timeCreated: new Date(metadata.timeCreated).toISOString(), // Convert Date object to ISO string
+        fileType: metadata.contentType,
+        fileSize: metadata.size
+      };
+    }));
+
+    // Sort media items by timeCreated in descending order
+    mediaItems.sort((a, b) => b.timeCreated.localeCompare(a.timeCreated));
+
+    // Push sorted media items with timeCreated as strings to activeTable
+    this.activeTable.push(...mediaItems);
   }
 }
