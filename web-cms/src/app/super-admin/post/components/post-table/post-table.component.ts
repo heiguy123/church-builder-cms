@@ -49,18 +49,22 @@ export class PostTableComponent implements OnInit {
     .then((doc) => {
       if (doc.exists()) {
         const posts = doc.data()['posts'];
-        posts.forEach((post: any) => {
-          if (post['isDeleted'] == false) {
-            this.activeTable.push({
-              id: post['id'],
-              title: post['title'],
-              HTMLContent: post['HTMLContent'],
-              timestamp: post['timestamp'],
-              status: post['status'],
-              visibility: post['visibility'],
-            });
-            return;
-          }
+        
+        // Filter out deleted posts and sort by id in descending order
+        const sortedPosts = posts
+        .filter((post: any) => !post.isDeleted)
+        .sort((a: any, b: any) => b.id - a.id);
+
+        // Push sorted posts to activeTable
+        sortedPosts.forEach((post: any) => {
+          this.activeTable.push({
+            id: post.id,
+            title: post.title,
+            HTMLContent: post.HTMLContent,
+            timestamp: post.timestamp,
+            status: post.status,
+            visibility: post.visibility,
+          });
         });
       } else {
         this.toastrMsg('error', 'Failed to fetch posts.');
